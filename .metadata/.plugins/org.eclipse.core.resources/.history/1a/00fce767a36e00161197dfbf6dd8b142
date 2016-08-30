@@ -1,8 +1,6 @@
 import java.awt.EventQueue;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.ArrayList;
-import java.util.List;
 
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
@@ -10,7 +8,6 @@ import javax.swing.JOptionPane;
 import java.awt.CardLayout;
 import javax.swing.JPanel;
 import javax.swing.JButton;
-import javax.swing.JComboBox;
 import javax.swing.JTextPane;
 import javax.swing.JFormattedTextField;
 import javax.swing.SwingConstants;
@@ -37,15 +34,10 @@ public class GUI {
 	private static final String SALE_PRICE = "Sale Price";
 	private static final String WHOLESALE_PRICE = "Whole Sale Price";
 	private static final String QUANTITY = "Quantity";
-	
 	private static final String ADD = "Add";
-	private static final String EDIT = "Edit";
 	
 	private static final String PASSED_DATA_ERROR = "Error, passed data incorrect";
 	private static final String DATA_INPUT_ERROR = "Data Input Error";
-	
-	
-	
 	private JFrame frame;
 
 	/**
@@ -99,68 +91,64 @@ public class GUI {
 		frame.getContentPane().add(AddStockItemPanel, "name_11894877285834");
 		AddStockItemPanel.setLayout(null);
 		
-		final JPanel EditStockItemPanel = new JPanel();
-		frame.getContentPane().add(EditStockItemPanel, "name_11894877285835");
-		EditStockItemPanel.setLayout(null);
-		
 		//******************************************************************
 		
 		//***************************ADD STOCK ITEM PANEL*******************
 		
-		JTextPane AddStockNameHeading = new JTextPane();
-		AddStockNameHeading.setText(ADD_STOCK_ITEM);
-		AddStockNameHeading.setEnabled(false);
-		AddStockNameHeading.setEditable(false);
-		AddStockNameHeading.setBounds(10, 72, 100, 20);
-		AddStockItemPanel.add(AddStockNameHeading);
+		JTextPane NameHeading = new JTextPane();
+		NameHeading.setText(ADD_STOCK_ITEM);
+		NameHeading.setEnabled(false);
+		NameHeading.setEditable(false);
+		NameHeading.setBounds(10, 72, 100, 20);
+		AddStockItemPanel.add(NameHeading);
 		
-		JTextPane AddStockDescriptionHeading = new JTextPane();
-		AddStockDescriptionHeading.setEnabled(false);
-		AddStockDescriptionHeading.setEditable(false);
-		AddStockDescriptionHeading.setText(DESCRIPTION);
-		AddStockDescriptionHeading.setBounds(10, 103, 100, 20);
-		AddStockItemPanel.add(AddStockDescriptionHeading);
+		JTextPane DescriptionHeading = new JTextPane();
+		DescriptionHeading.setEnabled(false);
+		DescriptionHeading.setEditable(false);
+		DescriptionHeading.setText(DESCRIPTION);
+		DescriptionHeading.setBounds(10, 103, 100, 20);
+		AddStockItemPanel.add(DescriptionHeading);
 		
-		JTextPane AddStockSalePriceHeading = new JTextPane();
-		AddStockSalePriceHeading.setEnabled(false);
-		AddStockSalePriceHeading.setEditable(false);
-		AddStockSalePriceHeading.setText(SALE_PRICE);
-		AddStockSalePriceHeading.setBounds(10, 134, 100, 20);
-		AddStockItemPanel.add(AddStockSalePriceHeading);
+		JTextPane SalePriceHeading = new JTextPane();
+		SalePriceHeading.setEnabled(false);
+		SalePriceHeading.setEditable(false);
+		SalePriceHeading.setText(SALE_PRICE);
+		SalePriceHeading.setBounds(10, 134, 100, 20);
+		AddStockItemPanel.add(SalePriceHeading);
 		
-		JTextPane AddStockWholeSalePriceHeading = new JTextPane();
-		AddStockWholeSalePriceHeading.setEnabled(false);
-		AddStockWholeSalePriceHeading.setEditable(false);
-		AddStockWholeSalePriceHeading.setText(WHOLESALE_PRICE);
-		AddStockWholeSalePriceHeading.setBounds(10, 165, 100, 20);
-		AddStockItemPanel.add(AddStockWholeSalePriceHeading);
+		JTextPane WholeSalePriceHeading = new JTextPane();
+		WholeSalePriceHeading.setEnabled(false);
+		WholeSalePriceHeading.setEditable(false);
+		WholeSalePriceHeading.setText(WHOLESALE_PRICE);
+		WholeSalePriceHeading.setBounds(10, 165, 100, 20);
+		AddStockItemPanel.add(WholeSalePriceHeading);
 		
-		JTextPane AddStockQuantityHeading = new JTextPane();
-		AddStockQuantityHeading.setEnabled(false);
-		AddStockQuantityHeading.setEditable(false);
-		AddStockQuantityHeading.setText(QUANTITY);
-		AddStockQuantityHeading.setBounds(10, 196, 100, 20);
-		AddStockItemPanel.add(AddStockQuantityHeading);
+		JTextPane QuantityHeading = new JTextPane();
+		QuantityHeading.setEnabled(false);
+		QuantityHeading.setEditable(false);
+		QuantityHeading.setText(QUANTITY);
+		QuantityHeading.setBounds(10, 196, 100, 20);
+		AddStockItemPanel.add(QuantityHeading);
 		
-		JEditorPane AddStockNameEditorPane = new JEditorPane();
-		AddStockNameEditorPane.setBounds(120, 72, 304, 20);
-		AddStockItemPanel.add(AddStockNameEditorPane);
+		JEditorPane NameEditorPane = new JEditorPane();
+		NameEditorPane.setBounds(120, 72, 304, 20);
+		AddStockItemPanel.add(NameEditorPane);
 		
-		JEditorPane AddStockDescriptionEditorPane = new JEditorPane();
-		AddStockDescriptionEditorPane.setBounds(120, 103, 304, 20);
-		AddStockItemPanel.add(AddStockDescriptionEditorPane);
+		JEditorPane DescriptionEditorPane = new JEditorPane();
+		DescriptionEditorPane.setBounds(120, 103, 304, 20);
+		AddStockItemPanel.add(DescriptionEditorPane);
 		
-		JEditorPane AddStockWholeSalePriceEditerPane = new JEditorPane();
-		AddStockWholeSalePriceEditerPane.setBounds(120, 165, 304, 20);
-		AddStockItemPanel.add(AddStockWholeSalePriceEditerPane);
+		JEditorPane WholeSalePriceEditerPane = new JEditorPane();
+		WholeSalePriceEditerPane.setBounds(120, 165, 304, 20);
+		AddStockItemPanel.add(WholeSalePriceEditerPane);
 		
-		JEditorPane AddStockQuantityEditorPane = new JEditorPane();
-		AddStockQuantityEditorPane.setBounds(120, 196, 304, 20);
-		AddStockItemPanel.add(AddStockQuantityEditorPane);
+		JEditorPane QuantityEditorPane = new JEditorPane();
+		QuantityEditorPane.setBounds(120, 196, 304, 20);
+		AddStockItemPanel.add(QuantityEditorPane);
 		
-		JEditorPane AddStockSaleEditorPane = new JEditorPane();
-		AddStockSaleEditorPane.setBounds(120, 134, 304, 20);
-		AddStockItemPanel.add(AddStockSaleEditorPane);
+		JEditorPane SaleEditorPane = new JEditorPane();
+		SaleEditorPane.setBounds(120, 134, 304, 20);
+		AddStockItemPanel.add(SaleEditorPane);
 		
 		JFormattedTextField AddStockItemHeading = new JFormattedTextField();
 		AddStockItemHeading.setText(STOCK_MANAGEMENT);
@@ -170,13 +158,13 @@ public class GUI {
 		AddStockItemHeading.setBounds(10, 11, 414, 23);
 		AddStockItemPanel.add(AddStockItemHeading);
 		
-		JButton AddStockItemHomePageButton = new JButton(HOME_PAGE);
-		AddStockItemHomePageButton.setBounds(10, 227, 100, 23);
-		AddStockItemPanel.add(AddStockItemHomePageButton);
-		AddStockItemHomePageButton.addActionListener(new ActionListener() {
+		JButton StockManagementHomePageButton = new JButton(HOME_PAGE);
+		StockManagementHomePageButton.setBounds(10, 227, 100, 23);
+		AddStockItemPanel.add(StockManagementHomePageButton);
+		StockManagementHomePageButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				HomePagePanel.setVisible(true);
-				AddStockItemPanel.setVisible(false);
+				AddStockItemPanel.setVisible(true);
 			}
 		});
 
@@ -188,116 +176,17 @@ public class GUI {
 			public void actionPerformed(ActionEvent arg0) {
 				try {
 					//TODO This is a dummy function. Add real method.
-					AddStockItem(AddStockNameEditorPane.getText(), AddStockDescriptionEditorPane.getText(), Integer.parseInt(AddStockSaleEditorPane.getText()), Integer.parseInt(AddStockWholeSalePriceEditerPane.getText()), Integer.parseInt(AddStockQuantityEditorPane.getText()));
+					AddStockItem(NameEditorPane.getText(), DescriptionEditorPane.getText(), Integer.parseInt(SaleEditorPane.getText()), Integer.parseInt(WholeSalePriceEditerPane.getText()), Integer.parseInt(QuantityEditorPane.getText()));
 				} catch (IndexOutOfBoundsException e) {
 					
 				    //System.err.println("IndexOutOfBoundsException: " + e.getMessage());
 				} catch( NumberFormatException e){
 					JOptionPane.showMessageDialog(frame, PASSED_DATA_ERROR, DATA_INPUT_ERROR, JOptionPane.ERROR_MESSAGE);
-					AddStockNameEditorPane.setText(""); AddStockDescriptionEditorPane.setText(""); AddStockSaleEditorPane.setText(""); AddStockWholeSalePriceEditerPane.setText(""); AddStockQuantityEditorPane.setText("");
+					NameEditorPane.setText(""); DescriptionEditorPane.setText(""); SaleEditorPane.setText(""); WholeSalePriceEditerPane.setText(""); QuantityEditorPane.setText("");
 				}
 			}
 		});
 		
-		//******************************************************************
-		
-		//**********************EDIT STOCK ITEM*****************************
-		JTextPane EditStockNameHeading = new JTextPane();
-		EditStockNameHeading.setText(ADD_STOCK_ITEM);
-		EditStockNameHeading.setEnabled(false);
-		EditStockNameHeading.setEditable(false);
-		EditStockNameHeading.setBounds(10, 72, 100, 20);
-		EditStockItemPanel.add(EditStockNameHeading);
-		
-		JTextPane EditStockDescriptionHeading = new JTextPane();
-		EditStockDescriptionHeading.setEnabled(false);
-		EditStockDescriptionHeading.setEditable(false);
-		EditStockDescriptionHeading.setText(DESCRIPTION);
-		EditStockDescriptionHeading.setBounds(10, 103, 100, 20);
-		EditStockItemPanel.add(EditStockDescriptionHeading);
-		
-		JTextPane EditStockSalePriceHeading = new JTextPane();
-		EditStockSalePriceHeading.setEnabled(false);
-		EditStockSalePriceHeading.setEditable(false);
-		EditStockSalePriceHeading.setText(SALE_PRICE);
-		EditStockSalePriceHeading.setBounds(10, 134, 100, 20);
-		EditStockItemPanel.add(EditStockSalePriceHeading);
-		
-		JTextPane EditStockWholeSalePriceHeading = new JTextPane();
-		EditStockWholeSalePriceHeading.setEnabled(false);
-		EditStockWholeSalePriceHeading.setEditable(false);
-		EditStockWholeSalePriceHeading.setText(WHOLESALE_PRICE);
-		EditStockWholeSalePriceHeading.setBounds(10, 165, 100, 20);
-		EditStockItemPanel.add(EditStockWholeSalePriceHeading);
-		
-		JTextPane EditStockQuantityHeading = new JTextPane();
-		EditStockQuantityHeading.setEnabled(false);
-		EditStockQuantityHeading.setEditable(false);
-		EditStockQuantityHeading.setText(QUANTITY);
-		EditStockQuantityHeading.setBounds(10, 196, 100, 20);
-		EditStockItemPanel.add(EditStockQuantityHeading);
-		
-		JEditorPane EditStockDescriptionEditorPane = new JEditorPane();
-		EditStockDescriptionEditorPane.setBounds(120, 103, 304, 20);
-		EditStockItemPanel.add(EditStockDescriptionEditorPane);
-		
-		JEditorPane EditStockWholeSalePriceEditerPane = new JEditorPane();
-		EditStockWholeSalePriceEditerPane.setBounds(120, 165, 304, 20);
-		EditStockItemPanel.add(EditStockWholeSalePriceEditerPane);
-		
-		JEditorPane EditStockQuantityEditorPane = new JEditorPane();
-		EditStockQuantityEditorPane.setBounds(120, 196, 304, 20);
-		EditStockItemPanel.add(EditStockQuantityEditorPane);
-		
-		JEditorPane EditStockSaleEditorPane = new JEditorPane();
-		EditStockSaleEditorPane.setBounds(120, 134, 304, 20);
-		EditStockItemPanel.add(EditStockSaleEditorPane);
-		
-		JFormattedTextField EditStockItemHeading = new JFormattedTextField();
-		EditStockItemHeading.setText(STOCK_MANAGEMENT);
-		EditStockItemHeading.setHorizontalAlignment(SwingConstants.CENTER);
-		EditStockItemHeading.setEnabled(false);
-		EditStockItemHeading.setEditable(false);
-		EditStockItemHeading.setBounds(10, 11, 414, 23);
-		EditStockItemPanel.add(EditStockItemHeading);
-		
-		JButton EditButton = new JButton(EDIT);
-		EditButton.setBounds(324, 227, 100, 23);
-		EditStockItemPanel.add(EditButton);
-		
-		JButton EditStockHomePageButton = new JButton(HOME_PAGE);
-		EditStockHomePageButton.setBounds(10, 227, 100, 23);
-		EditStockItemPanel.add(EditStockHomePageButton);
-		EditStockHomePageButton.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				HomePagePanel.setVisible(true);
-				EditStockItemPanel.setVisible(false);
-			}
-		});
-		
-		JComboBox EditStockItemSelectionList = new JComboBox(getStockItemsList().toArray());
-		EditStockItemSelectionList.setBounds(120, 72, 304, 20);
-		
-		try{
-			EditStockItemPanel.add(EditStockItemSelectionList);
-		} catch(IndexOutOfBoundsException e)
-		{
-			System.err.println("IndexOutOfBoundsException: " + e.getMessage());
-		}
-		
-		EditButton.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) {
-				try {
-					//TODO This is a dummy function. Add real method.
-					AddStockItem(EditStockItemSelectionList.getSelectedItem().toString(), EditStockDescriptionEditorPane.getText(), Integer.parseInt(EditStockSaleEditorPane.getText()), Integer.parseInt(EditStockWholeSalePriceEditerPane.getText()), Integer.parseInt(EditStockQuantityEditorPane.getText()));
-				} catch (IndexOutOfBoundsException e) {
-				    System.err.println("IndexOutOfBoundsException: " + e.getMessage());
-				} catch( NumberFormatException e){
-					JOptionPane.showMessageDialog(frame, PASSED_DATA_ERROR, DATA_INPUT_ERROR, JOptionPane.ERROR_MESSAGE);
-					EditStockItemSelectionList.setSelectedIndex(0); EditStockDescriptionEditorPane.setText(""); EditStockSaleEditorPane.setText(""); EditStockWholeSalePriceEditerPane.setText(""); EditStockQuantityEditorPane.setText("");
-				}
-			}
-		});		
 		//******************************************************************
 		
 		//**************************HOME PAGE*******************************
@@ -356,8 +245,6 @@ public class GUI {
 		JButton EditStockItemButton = new JButton(EDIT_STOCK_ITEM);
 		EditStockItemButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				EditStockItemPanel.setVisible(true);
-				StockManagerPanel.setVisible(false);
 			}
 		});
 		
@@ -431,14 +318,6 @@ public class GUI {
 	void AddStockItem(String name, String description, int SalePrice, int WholeSalePrice, int Quantity){
 		int i = 0;
 		i++;
-	}
-	
-	List<String> getStockItemsList(){
-		List<String> ListOfNames = new ArrayList<String>();
-		ListOfNames.add("asdf");
-		ListOfNames.add("fdas");
-		ListOfNames.add("aseeeedf");
-		return ListOfNames;
 	}
 }
 

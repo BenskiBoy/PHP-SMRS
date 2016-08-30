@@ -1,8 +1,6 @@
 import java.awt.EventQueue;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.ArrayList;
-import java.util.List;
 
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
@@ -37,15 +35,10 @@ public class GUI {
 	private static final String SALE_PRICE = "Sale Price";
 	private static final String WHOLESALE_PRICE = "Whole Sale Price";
 	private static final String QUANTITY = "Quantity";
-	
 	private static final String ADD = "Add";
-	private static final String EDIT = "Edit";
 	
 	private static final String PASSED_DATA_ERROR = "Error, passed data incorrect";
 	private static final String DATA_INPUT_ERROR = "Data Input Error";
-	
-	
-	
 	private JFrame frame;
 
 	/**
@@ -170,13 +163,14 @@ public class GUI {
 		AddStockItemHeading.setBounds(10, 11, 414, 23);
 		AddStockItemPanel.add(AddStockItemHeading);
 		
-		JButton AddStockItemHomePageButton = new JButton(HOME_PAGE);
-		AddStockItemHomePageButton.setBounds(10, 227, 100, 23);
-		AddStockItemPanel.add(AddStockItemHomePageButton);
-		AddStockItemHomePageButton.addActionListener(new ActionListener() {
+		//TODO Is this in correct spot - Ben
+		JButton StockManagementHomePageButton = new JButton(HOME_PAGE);
+		StockManagementHomePageButton.setBounds(10, 227, 100, 23);
+		AddStockItemPanel.add(StockManagementHomePageButton);
+		StockManagementHomePageButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				HomePagePanel.setVisible(true);
-				AddStockItemPanel.setVisible(false);
+				AddStockItemPanel.setVisible(true);
 			}
 		});
 
@@ -261,29 +255,19 @@ public class GUI {
 		EditStockItemHeading.setBounds(10, 11, 414, 23);
 		EditStockItemPanel.add(EditStockItemHeading);
 		
-		JButton EditButton = new JButton(EDIT);
+		//Add Stock Item
+		JButton EditButton = new JButton(ADD);
 		EditButton.setBounds(324, 227, 100, 23);
 		EditStockItemPanel.add(EditButton);
 		
-		JButton EditStockHomePageButton = new JButton(HOME_PAGE);
-		EditStockHomePageButton.setBounds(10, 227, 100, 23);
-		EditStockItemPanel.add(EditStockHomePageButton);
-		EditStockHomePageButton.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				HomePagePanel.setVisible(true);
-				EditStockItemPanel.setVisible(false);
-			}
-		});
+		String[] petStrings = { "Bird", "Cat", "Dog", "Rabbit", "Pig" };
 		
-		JComboBox EditStockItemSelectionList = new JComboBox(getStockItemsList().toArray());
+		JComboBox EditStockItemSelectionList = new JComboBox(petStrings);
 		EditStockItemSelectionList.setBounds(120, 72, 304, 20);
+		EditStockItemPanel.add(EditStockItemSelectionList);
+		//EditStockItemSelectionList.add("test");
 		
-		try{
-			EditStockItemPanel.add(EditStockItemSelectionList);
-		} catch(IndexOutOfBoundsException e)
-		{
-			System.err.println("IndexOutOfBoundsException: " + e.getMessage());
-		}
+		//TODO Populate Name list for edit stock item.
 		
 		EditButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
@@ -291,10 +275,11 @@ public class GUI {
 					//TODO This is a dummy function. Add real method.
 					AddStockItem(EditStockItemSelectionList.getSelectedItem().toString(), EditStockDescriptionEditorPane.getText(), Integer.parseInt(EditStockSaleEditorPane.getText()), Integer.parseInt(EditStockWholeSalePriceEditerPane.getText()), Integer.parseInt(EditStockQuantityEditorPane.getText()));
 				} catch (IndexOutOfBoundsException e) {
-				    System.err.println("IndexOutOfBoundsException: " + e.getMessage());
+					
+				    //System.err.println("IndexOutOfBoundsException: " + e.getMessage());
 				} catch( NumberFormatException e){
 					JOptionPane.showMessageDialog(frame, PASSED_DATA_ERROR, DATA_INPUT_ERROR, JOptionPane.ERROR_MESSAGE);
-					EditStockItemSelectionList.setSelectedIndex(0); EditStockDescriptionEditorPane.setText(""); EditStockSaleEditorPane.setText(""); EditStockWholeSalePriceEditerPane.setText(""); EditStockQuantityEditorPane.setText("");
+					EditStockItemSelectionList.setText(""); EditStockDescriptionEditorPane.setText(""); EditStockSaleEditorPane.setText(""); EditStockWholeSalePriceEditerPane.setText(""); EditStockQuantityEditorPane.setText("");
 				}
 			}
 		});		
@@ -431,14 +416,6 @@ public class GUI {
 	void AddStockItem(String name, String description, int SalePrice, int WholeSalePrice, int Quantity){
 		int i = 0;
 		i++;
-	}
-	
-	List<String> getStockItemsList(){
-		List<String> ListOfNames = new ArrayList<String>();
-		ListOfNames.add("asdf");
-		ListOfNames.add("fdas");
-		ListOfNames.add("aseeeedf");
-		return ListOfNames;
 	}
 }
 

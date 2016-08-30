@@ -170,10 +170,10 @@ public class GUI {
 		AddStockItemHeading.setBounds(10, 11, 414, 23);
 		AddStockItemPanel.add(AddStockItemHeading);
 		
-		JButton AddStockItemHomePageButton = new JButton(HOME_PAGE);
-		AddStockItemHomePageButton.setBounds(10, 227, 100, 23);
-		AddStockItemPanel.add(AddStockItemHomePageButton);
-		AddStockItemHomePageButton.addActionListener(new ActionListener() {
+		JButton StockManagementHomePageButton = new JButton(HOME_PAGE);
+		StockManagementHomePageButton.setBounds(10, 227, 100, 23);
+		AddStockItemPanel.add(StockManagementHomePageButton);
+		StockManagementHomePageButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				HomePagePanel.setVisible(true);
 				AddStockItemPanel.setVisible(false);
@@ -267,7 +267,7 @@ public class GUI {
 		
 		JButton EditStockHomePageButton = new JButton(HOME_PAGE);
 		EditStockHomePageButton.setBounds(10, 227, 100, 23);
-		EditStockItemPanel.add(EditStockHomePageButton);
+		EditStockItemPanel.add(StockManagementHomePageButton);
 		EditStockHomePageButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				HomePagePanel.setVisible(true);

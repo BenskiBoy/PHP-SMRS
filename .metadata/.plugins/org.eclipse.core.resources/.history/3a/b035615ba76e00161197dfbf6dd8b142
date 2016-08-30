@@ -37,15 +37,10 @@ public class GUI {
 	private static final String SALE_PRICE = "Sale Price";
 	private static final String WHOLESALE_PRICE = "Whole Sale Price";
 	private static final String QUANTITY = "Quantity";
-	
 	private static final String ADD = "Add";
-	private static final String EDIT = "Edit";
 	
 	private static final String PASSED_DATA_ERROR = "Error, passed data incorrect";
 	private static final String DATA_INPUT_ERROR = "Data Input Error";
-	
-	
-	
 	private JFrame frame;
 
 	/**
@@ -170,13 +165,14 @@ public class GUI {
 		AddStockItemHeading.setBounds(10, 11, 414, 23);
 		AddStockItemPanel.add(AddStockItemHeading);
 		
-		JButton AddStockItemHomePageButton = new JButton(HOME_PAGE);
-		AddStockItemHomePageButton.setBounds(10, 227, 100, 23);
-		AddStockItemPanel.add(AddStockItemHomePageButton);
-		AddStockItemHomePageButton.addActionListener(new ActionListener() {
+		//TODO Is this in correct spot - Ben
+		JButton StockManagementHomePageButton = new JButton(HOME_PAGE);
+		StockManagementHomePageButton.setBounds(10, 227, 100, 23);
+		AddStockItemPanel.add(StockManagementHomePageButton);
+		StockManagementHomePageButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				HomePagePanel.setVisible(true);
-				AddStockItemPanel.setVisible(false);
+				AddStockItemPanel.setVisible(true);
 			}
 		});
 
@@ -261,19 +257,10 @@ public class GUI {
 		EditStockItemHeading.setBounds(10, 11, 414, 23);
 		EditStockItemPanel.add(EditStockItemHeading);
 		
-		JButton EditButton = new JButton(EDIT);
+		//Add Stock Item
+		JButton EditButton = new JButton(ADD);
 		EditButton.setBounds(324, 227, 100, 23);
 		EditStockItemPanel.add(EditButton);
-		
-		JButton EditStockHomePageButton = new JButton(HOME_PAGE);
-		EditStockHomePageButton.setBounds(10, 227, 100, 23);
-		EditStockItemPanel.add(EditStockHomePageButton);
-		EditStockHomePageButton.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				HomePagePanel.setVisible(true);
-				EditStockItemPanel.setVisible(false);
-			}
-		});
 		
 		JComboBox EditStockItemSelectionList = new JComboBox(getStockItemsList().toArray());
 		EditStockItemSelectionList.setBounds(120, 72, 304, 20);
@@ -284,6 +271,9 @@ public class GUI {
 		{
 			System.err.println("IndexOutOfBoundsException: " + e.getMessage());
 		}
+		//EditStockItemSelectionList.add("test");
+		
+		//TODO Populate Name list for edit stock item.
 		
 		EditButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {

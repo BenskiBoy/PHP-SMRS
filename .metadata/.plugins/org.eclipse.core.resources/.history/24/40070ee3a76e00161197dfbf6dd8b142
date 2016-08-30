@@ -267,7 +267,7 @@ public class GUI {
 		
 		JButton EditStockHomePageButton = new JButton(HOME_PAGE);
 		EditStockHomePageButton.setBounds(10, 227, 100, 23);
-		EditStockItemPanel.add(EditStockHomePageButton);
+		EditStockItemPanel.add(StockManagementHomePageButton);
 		EditStockHomePageButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				HomePagePanel.setVisible(true);
