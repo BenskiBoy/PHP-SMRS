@@ -1,8 +1,8 @@
-package stockitem;
+//package stockitem;
 public class SalesRecord {
 	private int saleId;
-	private java.sql.Date date;
-	public StockItem (int saleId, java.sql.Date date)
+	private String date;
+	public SalesRecord (int saleId, String date)
 	{
 		this.saleId = saleId;
 		this.date = date;
@@ -15,6 +15,6 @@ public class SalesRecord {
 	
 	public String getDate ()
 	{
-		return this.name;
+		return this.date;
 	}
 }

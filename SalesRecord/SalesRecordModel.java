@@ -1,8 +1,8 @@
 public class SalesRecordModel {
 	
-	public String addSaleItem (java.sql.Date date)
+	public String addSaleItem (String date)
 	{
-		String result = "INSERT INTO salesrecord (SaleDate) VALUES ('"+ date +"')";
+		String result = "INSERT INTO salesrecord (SaleDate) VALUES ('"+ java.sql.Date.valueOf(date) +"')";
 		return result;
 	}
 

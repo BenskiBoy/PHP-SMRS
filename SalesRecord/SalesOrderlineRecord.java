@@ -1,11 +1,14 @@
-package stockitem;
+import java.util.ArrayList;
+import java.util.List;
+
+//package SalesOrderlineRecord;
 public class SalesOrderlineRecord {
 	private int saleId;
-	private java.sql.Date date;
-	private List<int> itemId = new ArrayList<int>();
-	private List<double> price = new ArrayList<double>();
-	private List<int> qty = new ArrayList<int>();
-	public StockItem (int saleId, java.sql.Date date, List<int> itemId, List<double> price, List<int> qty)
+	private String date;
+	private List<Integer> itemId = new ArrayList<Integer>();
+	private List<Double> price = new ArrayList<Double>();
+	private List<Integer> qty = new ArrayList<Integer>();
+	public SalesOrderlineRecord (int saleId, String date, List<Integer> itemId, List<Double> price, List<Integer> qty)
 	{
 		this.saleId = saleId;
 		this.date = date;
@@ -21,20 +24,20 @@ public class SalesOrderlineRecord {
 	
 	public String getDate ()
 	{
-		return this.name;
+		return this.date;
 	}
 
-	public List<int> getItemId ()
+	public List<Integer> getItemId ()
 	{
 		return this.itemId;
 	}
 
-	public List<double> getPrice ()
+	public List<Double> getPrice ()
 	{
 		return this.price;
 	}
 
-	public List<int> getQty ()
+	public List<Integer> getQty ()
 	{
 		return this.qty;
 	}
