@@ -1,26 +1,32 @@
 public class SalesRecordModel {
 	
-	public String addSaleItem (String name, String date, String qty)
+	public String addSaleItem (java.sql.Date date)
 	{
-		String result = "INSERT INTO salesrecord (ItemName, SaleDate, SaleQuantity) VALUES ('"+ name +"', '"+ date +"', '"+ qty +"')";
+		String result = "INSERT INTO salesrecord (SaleDate) VALUES ('"+ date +"')";
 		return result;
 	}
 
-	public String editSaleItem (String id, String name, String date, String qty)
+	public String addOrderlineItem (int saleId, int itemId, double price, int qty)
 	{
-		String result = "UPDATE salesrecord SET ItemName = '"+ name +"', SaleDate = '"+ date +"', SaleQuantity = '"+ qty +"' WHERE SaleID = '"+ id +"'";
+		String result = "INSERT INTO orderline (saleId, itemId, salePrice, qtySold) VALUES ('"+ saleId +"', '"+ itemId +"', '"+ price +"', '"+ qty +"')";
 		return result;
 	}
 	
-	public String displaySaleItem (String id)
+	public String displayAllSaleItems ()
+	{
+		String result = "SELECT * FROM salesrecord";
+		return result;
+	}
+
+	public String displaySaleItem (int id)
 	{
 		String result = "SELECT * FROM salesrecord WHERE SaleID = '"+ id +"'";
 		return result;
 	}
-	
-	public String deleteSaleItem (String id)
+
+	public String displayOrderlineItem (int id)
 	{
-		String result = "DELETE FROM salesrecord WHERE SaleID = '"+ id +"'";
+		String result = "SELECT * FROM orderline WHERE saleId = '"+ id +"'";
 		return result;
 	}
 }

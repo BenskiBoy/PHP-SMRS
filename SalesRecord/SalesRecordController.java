@@ -21,15 +21,15 @@ public class SalesRecordController {
 	
 	
 	//Method to validate user input
-	private Boolean recordCheckRegex (String date, String qty)
+	private Boolean recordCheckRegex (java.sql.Date date, int qty)
 	{
 		Boolean result = true;
 		
-		if (!date.matches(dateRegex))
+		if (!(date.toString()).matches(dateRegex))
 		{
 			result = false;
 		}
-		else if (!qty.matches(qtyRegex))
+		else if (!(qty.toString()).matches(qtyRegex))
 		{
 			result = false;
 		}
@@ -37,9 +37,11 @@ public class SalesRecordController {
 		return result;
 	}
 	
-	private Boolean addSaleRecord (String name, String date, String qty)
+	private Boolean addSaleRecord (java.sql.Date date, List<int> itemId, List<double> price, List<int> qty)
 	{
 		Boolean result = false;
+		int incKey = 0;
+		int count = price.size();
 		
 		if (!recordCheckRegex(date, qty))
 		{
@@ -50,7 +52,24 @@ public class SalesRecordController {
 		{
 			Connection con = DriverManager.getConnection(HOST, USERNAME, PASSWORD);
 			Statement stmt = con.createStatement();
-			result = stmt.execute(srm.addSaleItem(name, date, qty));
+			stmt.execute(srm.addSaleItem(date));
+
+			ResultSet rs = stmt.GetGeneratedKeys();
+
+			if (rs.next())
+			{
+				incKey = rs.getInt(1);
+			}
+			else
+			{
+				throw new IllegalArgumentException("No Sales Record Found");
+			}
+
+			for (int i = 0; i < count; i++)
+			{
+				result = stmt.execute(srm.addOrderlineItem(incKey, itemId[i], price[i], qty[i]));
+			}
+
 			con.close();
 		}
 		catch (Exception e)
@@ -62,73 +81,76 @@ public class SalesRecordController {
 		return result;
 	}
 
-	private Boolean editSaleRecord (String id, String name, String date, String qty)
+	private List<SalesRecord> displayAllSaleRecords ()
 	{
-		Boolean result = false;
-		
-		if (!recordCheckRegex(date, qty))
-		{
-			throw new IllegalArgumentException("Invalid Input");
-		}
-		
+		ResultSet rs;
+		List<SalesRecord> records = new ArrayList<SalesRecord>();
+		int saleId;
+		java.sql.Date date;
+
 		try
 		{
 			Connection con = DriverManager.getConnection(HOST, USERNAME, PASSWORD);
 			Statement stmt = con.createStatement();
-			result = stmt.execute(srm.editSaleItem(id, name, date, qty));
-			con.close();
+
+			rs = stmt.executeQuery(srm.displayAllSaleItems());
+			
+			while(rs.next())
+			{
+				saleId = rs.getInt("idSalesRecord");
+				date = rs.getDate("SaleDate");
+
+				SalesRecord record = new SalesRecord(saleId, date);
+				records.Add(record);
+			}
+
+			return records;
 		}
 		catch (Exception e)
 		{
 			System.out.println(e.toString());
 			e.printStackTrace();
 		}
-		
-		return result;
 	}
-	
-	private void displaySaleRecord (String id)
+
+	private SalesOrderlineRecord displaySaleRecord (int id)
 	{
+		int saleId = id;
+		java.sql.Date date;
+		List<int> itemId = new ArrayList<int>();
+		List<double> price = new ArrayList<double>();
+		List<int> qty = new ArrayList<int>();
+	
 		ResultSet rs;
 		
 		try
 		{
 			Connection con = DriverManager.getConnection(HOST, USERNAME, PASSWORD);
 			Statement stmt = con.createStatement();
+
 			rs = stmt.executeQuery(srm.displaySaleItem(id));
-			con.close();
 			
 			while(rs.next())
 			{
-				String output = rs.getString(1) + " " + rs.getString(2) + " " + rs.getString(3) + " " + rs.getString(4);
-				System.out.println(output);
+				date = rs.getDate("SaleDate");
 			}
-		}
-		catch (Exception e)
-		{
-			System.out.println(e.toString());
-			e.printStackTrace();
-		}
-	}
-	
-	private Boolean deleteSaleRecord (String id)
-	{
-		Boolean result = false;
-		
-		try
-		{
-			Connection con = DriverManager.getConnection(HOST, USERNAME, PASSWORD);
-			Statement stmt = con.createStatement();
-			result = stmt.execute(srm.deleteSaleItem(id));
-			con.close();
-		}
-		catch (Exception e)
-		{
-			System.out.println(e.toString());
-			e.printStackTrace();
-		}
-		
-		return result;
-	}
 
+			rs = stmt.executeQuery(srm.displayOrderlineItem(id));
+
+			while (rs.next())
+			{
+				itemId.Add(rs.getInt("itemId"));
+				price.Add(rs.getDouble("salePrice"));
+				qty.Add(rs.getInt("qtySold"));
+			}
+
+			SalesOrderlineRecord record = new SalesOrderlineRecord(id, date, itemId, price, qty);
+			return record;
+		}
+		catch (Exception e)
+		{
+			System.out.println(e.toString());
+			e.printStackTrace();
+		}
+	}
 }
