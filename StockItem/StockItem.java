@@ -6,6 +6,7 @@ public class StockItem {
 	private String description;
 	private double listPrice;
 	private int quantity;
+	
 	public StockItem(int id, String nam, String man, String desc, double price, int quan){
 		this.stockId = id;
 		this.name = nam;
