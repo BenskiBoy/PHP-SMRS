@@ -5,15 +5,15 @@ public class StockItemSQLModel {
 		String price = Double.toString(s.getListPrice());
 		String qty = Integer.toString(s.getQuantity());
 		String result = "INSERT StockItems (Name, Manufacturer, Description, ListPrice, StockQuantity)"
-				+ " VALUES ('"+s.getName()+"', '"+s.getManufacturer()+"', '"+s.getDescription()+"',  "+price+", "+qty+")";
+				+ " VALUES ('"+s.getName().replaceAll("'", "''")+"', '"+s.getManufacturer().replaceAll("'", "''")+"', '"+s.getDescription().replaceAll("'", "''")+"',  "+price+", "+qty+")";
 		return result;
 	}
 	public String updateStockItem(String id, StockItem s){
 		
 		String price = Double.toString(s.getListPrice());
 		String qty = Integer.toString(s.getQuantity());
-		String result = "UPDATE StockItems set Name = '"+s.getName()+"', Manufacturer = '"+s.getManufacturer()+", Description = '"
-				+s.getDescription()+ "', ListPrice = "+price+", StockQuantity = "+qty +" WHERE idStockItems = "+id;
+		String result = "UPDATE StockItems set Name = '"+s.getName().replaceAll("'", "''")+"', Manufacturer = '"+s.getManufacturer().replaceAll("'", "''")+", Description = '"
+				+s.getDescription().replaceAll("'", "''")+ "', ListPrice = "+price+", StockQuantity = "+qty +" WHERE idStockItems = "+id;
 		return result;
 	}
 	public String updateStockItem(int id, StockItem s){
@@ -21,8 +21,8 @@ public class StockItemSQLModel {
 		String price = Double.toString(s.getListPrice());
 		String qty = Integer.toString(s.getQuantity());
 		String strId = Integer.toString(id);
-		String result = "UPDATE StockItems set Name = '"+s.getName()+"', Manufacturer = '"+s.getManufacturer()+"', Description = '"
-				+s.getDescription()+ "', ListPrice = "+price+", StockQuantity = "+qty +" WHERE idStockItems = "+strId;
+		String result = "UPDATE StockItems set Name = '"+s.getName().replaceAll("'", "''")+"', Manufacturer = '"+s.getManufacturer().replaceAll("'", "''")+"', Description = '"
+				+s.getDescription().replaceAll("'", "''")+ "', ListPrice = "+price+", StockQuantity = "+qty +" WHERE idStockItems = "+strId;
 		return result;
 	}
 	public String selectStockItem(){
