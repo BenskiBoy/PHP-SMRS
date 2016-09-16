@@ -1,0 +1,8 @@
+/**
+ * Determines and predicts the sale quantity of a database item and creates a CSV report
+ * @author Owen
+ *
+ */
+public class ItemQtyPrediction {
+
+}
