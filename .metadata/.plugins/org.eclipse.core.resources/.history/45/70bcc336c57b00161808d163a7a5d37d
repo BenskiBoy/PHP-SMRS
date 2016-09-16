@@ -1,0 +1,57 @@
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
+
+/**
+ * Determines and predicts the sale quantity of a database item and creates a CSV report
+ * @author Owen
+ *
+ */
+public class ItemQtyPrediction {
+	//Knows
+	private static String outputFile = "";
+	private static String itemQuantityReportHeader = "ItemID, ItemName, Qty Sold, Sale Period, Fortnightly Rate, Remaining Qty, Required Qty";
+	
+	
+	private DateFormat df;
+	public ItemQtyPrediction(){
+		df = new SimpleDateFormat("yyyy-mm-dd");
+		
+	}
+	
+	//Can do
+	/**
+	 * Generates a CSV report for a single item predicting its future sale quantity
+	 * @param itemId Database Id value of the requested item
+	 * @param dateRange Range for report history in whole days
+	 * @param forwardPrediction Range for forward sales prediction in whole days
+	 * @return CSV format single report line for one item
+	 */
+	public String generateSingleItemReport(int itemId, int dataRange, int forwardPrediction){
+		//get oldest date
+		Calendar cal = Calendar.getInstance();
+		Date initDate = cal.getTime();
+		System.out.println("Current date: " + df.format(initDate));
+		cal.add(Calendar.DAY_OF_MONTH, -dataRange);
+		Date rangeStart = cal.getTime();
+		System.out.println("Range start date: " + df.format(rangeStart));
+		
+		//retrieve orderline list within certain date range
+		
+		//generate list of item quantities by searching through orderlines
+		
+		//determine sales rate per item
+		
+		//generate csv line
+		return "";
+	}
+	
+	/**
+	 * The CSV header for the report file
+	 * @return
+	 */
+	public String getItemQuantityReportHeader(){		
+		return itemQuantityReportHeader;
+	}
+}
