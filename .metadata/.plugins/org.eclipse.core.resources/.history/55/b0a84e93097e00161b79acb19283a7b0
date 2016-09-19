@@ -13,20 +13,23 @@ import java.util.Date;
  *
  */
 public class ItemQtyPrediction {
-	//Properties
+	//Knows
 	private static String outputFile = "";
 	private static String itemQuantityReportHeader = "ItemID, ItemName, Qty Sold, Sale Period, Fortnightly Rate, Remaining Qty, Required Qty";
 	private static String HOST = "jdbc:mysql://192.168.1.103:3306/phpsales_and_stock?autoReconnect=true&useSSL=false";
 	private static String USERNAME = "TestUser";
 	private static String PASSWORD = "PhpTestPass";
 	private static double rateMetric = 14; //number of days over which the rate applies
-	private DateFormat df;
 	
-	//Methods	
+	
+	
+	private DateFormat df;
 	public ItemQtyPrediction(){
-		df = new SimpleDateFormat("yyyy-MM-dd");		
+		df = new SimpleDateFormat("yyyy-MM-dd");
+		
 	}
 	
+	//Can do
 	/**
 	 * Generates a CSV report for a single item predicting its future sale quantity
 	 * @param itemId Database Id value of the requested item. Must be confirmed before submitting to this method.
@@ -36,13 +39,12 @@ public class ItemQtyPrediction {
 	 */
 	public String generateSingleItemReport(int itemId, int dataRange, int forwardPrediction){
 		String itemName = "";
-		int index = 0;
-		int qtyCount = 0;
 		
 		//get oldest date that we want to look at
 		Calendar cal = Calendar.getInstance();
 		cal.add(Calendar.DAY_OF_YEAR, -dataRange);
 		Date rangeStart = cal.getTime();
+		//System.out.println("Range start date: " + df.format(rangeStart));
 	
 		try{
 			//Establish connection to database
@@ -54,7 +56,7 @@ public class ItemQtyPrediction {
 			ResultSet rsName = stmt.executeQuery(query);
 			if(rsName.next()){
 				itemName = rsName.getString(1);
-				//System.out.println("Item name: " + itemName);
+				System.out.println("Item name: " + itemName);
 			}
 			else
 				return "null";
@@ -67,30 +69,31 @@ public class ItemQtyPrediction {
 				+ "ON orderline.saleId = salesrecord.idSalesRecord "
 				+ "WHERE orderline.itemId = " + itemId 
 				+ " AND salesrecord.SaleDate >= '" + df.format(rangeStart) + "';";
+			int index = 0;
+			int qtyCount = 0;
 			ResultSet rs = stmt.executeQuery(order);
 			
 			//Determine total quantity count
 			while(rs.next()){
-				//System.out.println("Index: " + index + " Qty: " + rs.getInt(1) + " date: " + df.format(rs.getDate(2)));
+				System.out.println("Index: " + index + " Qty: " + rs.getInt(1) + " date: " + df.format(rs.getDate(2)));
 				index++;
 				qtyCount += rs.getInt(1);
 			}
-			//System.out.println("Total Qty: " + qtyCount);
+			System.out.println("Total Qty: " + qtyCount);
 		}catch(Exception e){
 			e.printStackTrace();
 		}		
 		
 		//determine sales rate per item
 		double salesRate = rateMetric * qtyCount/dataRange;
-		//System.out.println("Qty Sale Rate: " + salesRate);
+		System.out.println("Qty Sale Rate: " + salesRate);
 		
 		//predict sales over forward estimate period
-		double futureSales = salesRate * forwardPrediction / rateMetric;
-		//System.out.println("Forward prediction: " + futureSales);
+		double futureSales = salesRate * forwardPrediction;
+		System.out.println("Forward prediction: " + futureSales);
 		
 		//generate csv line
 		String output = itemId + ", " + itemName + ", " + qtyCount + ", " + dataRange + ", " + salesRate + ", " + futureSales + ", " + forwardPrediction + "\r\n";
-		//System.out.println(itemQuantityReportHeader);
 		//System.out.print(output);
 		return output;
 	}

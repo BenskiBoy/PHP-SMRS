@@ -24,7 +24,8 @@ public class ItemQtyPrediction {
 	
 	//Methods	
 	public ItemQtyPrediction(){
-		df = new SimpleDateFormat("yyyy-MM-dd");		
+		df = new SimpleDateFormat("yyyy-MM-dd");
+		
 	}
 	
 	/**
