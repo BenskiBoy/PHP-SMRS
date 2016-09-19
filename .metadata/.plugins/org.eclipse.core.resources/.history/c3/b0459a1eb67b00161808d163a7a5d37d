@@ -1,0 +1,30 @@
+/**
+ * Determines and predicts the sale quantity of a database item and creates a CSV report
+ * @author Owen
+ *
+ */
+public class ItemQtyPrediction {
+	//Knows
+	private static String outputFile = "";
+	private static String itemQuantityReportHeader = "";
+	
+	
+	//Can do
+	/**
+	 * Generates a CSV report for a single item predicting its future sale quantity
+	 * @param itemId Database Id value of the requested item
+	 * @return CSV format single report line for one item
+	 */
+	public String generateSingleItemReport(int itemId){
+		
+		return "";
+	}
+	
+	/**
+	 * The CSV header for the report file
+	 * @return
+	 */
+	public String itemQuantityReportHeader(){		
+		return itemQuantityReportHeader;
+	}
+}
