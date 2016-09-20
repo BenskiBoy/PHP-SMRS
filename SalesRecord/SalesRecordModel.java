@@ -29,4 +29,9 @@ public class SalesRecordModel {
 		String result = "SELECT * FROM orderline WHERE saleId = '"+ id +"'";
 		return result;
 	}
+
+	public String fetchSalesValue (String date)
+	{
+		String result = "SELECT orderline.qtySold, orderline.salePrice FROM orderline INNER JOIN salesrecord ON orderline.saleId = salesrecord.idSalesRecord WHERE salesrecord.SaleDate >= '"+ java.sql.Date.valueOf(date) +"'";
+	}
 }
