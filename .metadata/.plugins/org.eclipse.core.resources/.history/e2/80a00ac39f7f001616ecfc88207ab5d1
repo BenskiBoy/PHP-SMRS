@@ -1,0 +1,32 @@
+import java.io.FileWriter;
+
+public class ReportCsvFileWriter {
+	private static final String NEW_LINE = "\n";
+
+	public boolean writeCsvReportToFile(String fileName, String header, String[] rows){
+		boolean result = false;
+		FileWriter fw = null;
+		try{
+			fw = new FileWriter(fileName);
+			
+			fw.append(header.toString());
+			
+			for(int i = 0; i < rows.length; i++){
+				fw.append(String.valueOf(rows[i]));
+				fw.append(NEW_LINE);
+			}
+			result = true;
+		}catch(Exception e){
+			e.toString();
+			result = false;
+		}finally{
+			try{
+				fw.flush();
+				fw.close();
+			}catch(Exception e){
+				e.toString();
+			}
+		}
+		return result;
+	}
+}
