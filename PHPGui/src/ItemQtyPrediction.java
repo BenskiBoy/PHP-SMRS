@@ -16,7 +16,7 @@ public class ItemQtyPrediction {
 	//Properties
 	private static String outputFile = "";
 	private static String itemQuantityReportHeader = "ItemID, ItemName, Qty Sold, Sale Period, Fortnightly Rate, Remaining Qty, Required Qty";
-	private static String HOST = "jdbc:mysql://192.168.1.103:3306/phpsales_and_stock?autoReconnect=true&useSSL=false";
+	private static String HOST = "jdbc:mysql://10.1.51.129:3306/phpsales_and_stock?autoReconnect=true&useSSL=false";
 	private static String USERNAME = "TestUser";
 	private static String PASSWORD = "PhpTestPass";
 	private static double rateMetric = 14; //number of days over which the rate applies
@@ -89,7 +89,7 @@ public class ItemQtyPrediction {
 		//System.out.println("Forward prediction: " + futureSales);
 		
 		//generate csv line
-		String output = itemId + ", " + itemName + ", " + qtyCount + ", " + dataRange + ", " + salesRate + ", " + futureSales + ", " + forwardPrediction + "\r\n";
+		String output = itemId + ", " + itemName + ", " + qtyCount + ", " + dataRange + ", " + salesRate + ", " + futureSales + ", " + forwardPrediction;
 		//System.out.println(itemQuantityReportHeader);
 		//System.out.print(output);
 		return output;
