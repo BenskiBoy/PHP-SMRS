@@ -1,5 +1,3 @@
-import java.util.ArrayList;
-import java.util.List;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
@@ -11,10 +9,10 @@ import java.util.Date;
 
 public class SalesValue {
 	private static String salesValueReportHeader = "Start Date, End Date, Total Items Sold, Total Sales Value";
-	private static String HOST = "jdbc:mysql://192.168.1.103:3306/phpsales_and_stock?autoReconnect=true&useSSL=false";
+	private static String HOST = "jdbc:mysql://10.1.51.129:3306/phpsales_and_stock?autoReconnect=true&useSSL=false";
 	private static String USERNAME = "TestUser";
 	private static String PASSWORD = "PhpTestPass";
-	private DateFormat df = new SimpleDateFormat("yyyy-mm-dd");
+	private DateFormat df = new SimpleDateFormat("yyyy-MM-dd");
 
 	private SalesRecordModel srm = new SalesRecordModel();
 
@@ -26,7 +24,7 @@ public class SalesValue {
 		String startDate = "";
 		String endDate = "";
 		int itemCount = 0;
-		Double priceTotal = 0;
+		Double priceTotal = 0.0;
 		ResultSet rs;
 
 		startDate = getStartDate(dataRange);
@@ -63,11 +61,11 @@ public class SalesValue {
 		String result;
 		Date startDate;
 
-		Calender cal = Calender.getInstance();
-		cal.add(Calender.DAY_OF_YEAR, -dataRange);
+		Calendar cal = Calendar.getInstance();
+		cal.add(Calendar.DAY_OF_YEAR, -dataRange);
 		startDate = cal.getTime();
-		df.format(startDate);
-		result = startDate.toString();
+		result = df.format(startDate);
+		//result = startDate.toString();
 		return result;
 	}
 
@@ -76,11 +74,10 @@ public class SalesValue {
 		String result;
 		Date endDate;
 
-		Calender cal = Calender.getInstance();
-		cal.add(Calender.DAY_OF_YEAR);
+		Calendar cal = Calendar.getInstance();
 		endDate = cal.getTime();
-		df.format(endDate);
-		result = endDate.toString();
+		result = df.format(endDate);
+		//result = endDate.toString();
 		return result;
 	}
 
