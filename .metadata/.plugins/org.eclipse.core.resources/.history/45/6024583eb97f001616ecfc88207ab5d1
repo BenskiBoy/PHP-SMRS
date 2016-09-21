@@ -27,7 +27,8 @@ public class ItemQtyPrediction {
 		df = new SimpleDateFormat("yyyy-MM-dd");	
 		host = cd.getHOST();
 		username = cd.getUSERNAME();
-		password = cd.getPASSWORD();		
+		password = cd.getPASSWORD();
+		
 	}
 	
 	/**
@@ -92,7 +93,7 @@ public class ItemQtyPrediction {
 		//System.out.println("Forward prediction: " + futureSales);
 		
 		//generate csv line
-		String output = itemId + ", " + itemName + ", " + qtyCount + ", " + dataRange + ", " + salesRate + ", " + forwardPrediction + ", " + futureSales;
+		String output = itemId + ", " + itemName + ", " + qtyCount + ", " + dataRange + ", " + salesRate + ", " + futureSales + ", " + forwardPrediction;
 		//System.out.println(itemQuantityReportHeader);
 		//System.out.print(output);
 		return output;

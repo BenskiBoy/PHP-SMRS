@@ -8,7 +8,6 @@ public class testMain {
 	private static String PASSWORD = "PhpTestPass";
 	
 	public static void main(String[] args) {
-		
 		ConnectionDetails cd = new ConnectionDetails(HOST, USERNAME, PASSWORD); 
 		predict = new ItemQtyPrediction(cd);
 		
