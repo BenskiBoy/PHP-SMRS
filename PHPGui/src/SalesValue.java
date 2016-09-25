@@ -8,19 +8,21 @@ import java.util.Calendar;
 import java.util.Date;
 
 public class SalesValue {
-	private static String salesValueReportHeader = "Start Date, End Date, Total Items Sold, Total Sales Value";
-	private static String HOST = "jdbc:mysql://10.1.51.129:3306/phpsales_and_stock?autoReconnect=true&useSSL=false";
-	private static String USERNAME = "TestUser";
-	private static String PASSWORD = "PhpTestPass";
+	private static String fileName = "Sale_Value.csv";
+	private static String header = "Start Date, End Date, Total Items Sold, Total Sales Value";
 	private DateFormat df = new SimpleDateFormat("yyyy-MM-dd");
+	private ReportCsvFileWriter writer = new ReportCsvFileWriter ();
 
-	private SalesRecordModel srm = new SalesRecordModel();
+	public generateReport (int dataRange, Controller CI, Model mod)
+	{
+		writer.writeCsvReportToFile (fileName, header, generateSalesValueReport(dataRange, CI, mod));
+	}
 
 	//Generates total sales value report for a given amount of days as a string in csv format
 	//dataRange - positive integer pertaining to amount of days in the past to generate report for
-	public String generateSalesValueReport (int dataRange)
+	public String[] generateSalesValueReport (int dataRange, Controller CI, Model mod)
 	{
-		String result = "";
+		String[] result;
 		String startDate = "";
 		String endDate = "";
 		int itemCount = 0;
@@ -32,10 +34,10 @@ public class SalesValue {
 
 		try
 		{
-			Connection con = DriverManager.getConnection(HOST, USERNAME, PASSWORD);
+			Connection con = DriverManager.getConnection(CI.getHost, CI.getUsername, CI.getPassword);
 			Statement stmt = con.createStatement();
 
-			rs = stmt.executeQuery(srm.fetchSalesValue(startDate));
+			rs = stmt.executeQuery(mod.fetchSalesValue(startDate));
 
 			//Calculation of itemCount and priceTotal
 			while(rs.next())
@@ -51,7 +53,7 @@ public class SalesValue {
 		}
 
 		//generate csv string
-		result = startDate + ", " + endDate + ", " + itemCount + ", $" + priceTotal;
+		result[0] = startDate + ", " + endDate + ", " + itemCount + ", $" + priceTotal;
 		
 		return result;
 	}

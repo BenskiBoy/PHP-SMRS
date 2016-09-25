@@ -8,11 +8,13 @@ import java.sql.ResultSet;
 
 public class Controller {
 	private Model mod = new Model ();
+	private SalesValue reportSaleValue = new SalesValue ();
+	
 	private ConnectionInfo CI;
 	private static String IP = "192.168.1.103";
 	private static String HOST = "jdbc:mysql://" + IP + ":3306/phpsales_and_stock?autoReconnect=true&useSSL=false";
 	private static String USERNAME = "TestUser";
-	private static String PASSWORD = "PhpTestPass";	
+	private static String PASSWORD = "PhpTestPass";
 	public Controller ()
 	{
 		CI = new ConnectionInfo (HOST, USERNAME, PASSWORD);
@@ -83,6 +85,8 @@ public class Controller {
 				SalesRecord record = new SalesRecord(saleId, date);
 				records.add(record);
 			}
+
+			con.close();
 		}
 		catch (Exception e)
 		{
@@ -124,6 +128,8 @@ public class Controller {
 				price.add(rs.getDouble("salePrice"));
 				qty.add(rs.getInt("qtySold"));
 			}
+
+			con.close();
 
 			record = new SalesOrderlineRecord(id, date, itemId, price, qty);
 		}
@@ -246,5 +252,14 @@ public class Controller {
 			return false;
 		}
 		return true;
+	}
+
+	//
+	//Report Generation
+	//
+
+	public generateSaleValueReport ()
+	{
+		reportSaleValue.generateReport (14, CI, mod);
 	}
 }

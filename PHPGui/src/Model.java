@@ -28,7 +28,7 @@ public class Model {
 	{
 		String result = "SELECT * "
 					+ "FROM salesrecord "
-					+ "WHERE SaleID = '"+ id +"'";
+					+ "WHERE saleId = '"+ id +"'";
 		return result;
 	}
 
