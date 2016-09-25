@@ -1,5 +1,6 @@
 
 public class ConnectionInfo {
+	
 	private static String HOST = "";
 	private static String USERNAME = "";
 	private static String PASSWORD = "";

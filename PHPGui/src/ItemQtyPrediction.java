@@ -13,6 +13,7 @@ import java.util.Date;
  *
  */
 public class ItemQtyPrediction {
+	
 	//Properties
 	private static String outputFile = "";
 	private static String itemQuantityReportHeader = "ItemID, ItemName, Qty Sold, Sale Period, Fortnightly Rate, Remaining Qty, Required Qty";
