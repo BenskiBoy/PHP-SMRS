@@ -13,17 +13,17 @@ import java.util.Date;
  *
  */
 public class ItemQtyPrediction {
+	
 	//Properties
 	private static String outputFile = "";
 	private static String itemQuantityReportHeader = "ItemID, ItemName, Qty Sold, Sale Period, Fortnightly Rate, Remaining Qty, Required Qty";
-	private static String HOST = "jdbc:mysql://10.1.51.129:3306/phpsales_and_stock?autoReconnect=true&useSSL=false";
-	private static String USERNAME = "TestUser";
-	private static String PASSWORD = "PhpTestPass";
+	private static ConnectionInfo conInfo = null;
 	private static double rateMetric = 14; //number of days over which the rate applies
 	private DateFormat df;
 	
 	//Methods	
-	public ItemQtyPrediction(){
+	public ItemQtyPrediction(ConnectionInfo ci){
+		conInfo = ci;
 		df = new SimpleDateFormat("yyyy-MM-dd");		
 	}
 	
@@ -46,7 +46,7 @@ public class ItemQtyPrediction {
 	
 		try{
 			//Establish connection to database
-			Connection con = DriverManager.getConnection(HOST, USERNAME, PASSWORD);
+			Connection con = DriverManager.getConnection(conInfo.getHost(), conInfo.getUsername(), conInfo.getPassword());
 			Statement stmt = con.createStatement();	
 			
 			//check that item id corresponds to an actual item and also retrieve its name for the report

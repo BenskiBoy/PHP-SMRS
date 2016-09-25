@@ -9,7 +9,8 @@ import java.sql.ResultSet;
 public class SalesRecordController {
 	
 	//Connection settings
-	private static String HOST = "jdbc:mysql://192.168.0.15:3306/PhPSales_and_Stock?autoReconnect=true&useSSL=false";
+	private static String HOST = "jdbc:mysql://10.1.51.129:3306/phpsales_and_stock?autoReconnect=true&useSSL=false";
+	//private static String HOST = "jdbc:mysql://192.168.0.15:3306/PhPSales_and_Stock?autoReconnect=true&useSSL=false";
 	private static String USERNAME = "root";
 	private static String PASSWORD = "password";
 	
