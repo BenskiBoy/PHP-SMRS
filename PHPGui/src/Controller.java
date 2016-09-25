@@ -8,7 +8,8 @@ import java.sql.ResultSet;
 
 public class Controller {
 	private Model mod = new Model ();
-	private SalesValue reportSaleValue = new SalesValue ();
+	private SalesValue repSaleValue = new SalesValue ();
+	private ItemQuantityPrediction repIdvItemSalePrediction;
 	
 	private ConnectionInfo CI;
 	private static String IP = "192.168.1.103";
@@ -258,8 +259,8 @@ public class Controller {
 	//Report Generation
 	//
 
-	public generateSaleValueReport ()
+	public generateSaleValueReport (int dataRange)
 	{
-		reportSaleValue.generateReport (14, CI, mod);
+		repSaleValue.generateReport (dataRange, CI, mod);
 	}
 }
