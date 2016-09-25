@@ -65,7 +65,6 @@ public class SalesValue {
 		cal.add(Calendar.DAY_OF_YEAR, -dataRange);
 		startDate = cal.getTime();
 		result = df.format(startDate);
-		//result = startDate.toString();
 		return result;
 	}
 
@@ -77,7 +76,6 @@ public class SalesValue {
 		Calendar cal = Calendar.getInstance();
 		endDate = cal.getTime();
 		result = df.format(endDate);
-		//result = endDate.toString();
 		return result;
 	}
 
