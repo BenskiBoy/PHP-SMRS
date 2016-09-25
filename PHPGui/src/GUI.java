@@ -65,7 +65,7 @@ public class GUI {
 	private static final String DATA_INPUT_ERROR = "Data Input Error";
 
 	private JFrame frame;
-	private JTextField textField;
+	private JTextField TotalPriceTextField;
 	
 	private StockItemController sic = new StockItemController();
 	private SalesRecordController src = new SalesRecordController();
@@ -141,6 +141,11 @@ public class GUI {
 		final JPanel DisplayStockItemsPanel = new JPanel();
 		frame.getContentPane().add(DisplayStockItemsPanel, "name_247974813788265");
 		DisplayStockItemsPanel.setLayout(null);
+		
+		final JPanel DisplaySaleRecordPanel = new JPanel();
+		frame.getContentPane().add(DisplaySaleRecordPanel, "name_247974813788264");
+		DisplaySaleRecordPanel.setLayout(null);
+		
 		//******************************************************************
 		
 		//***************************ADD STOCK ITEM PANEL*******************
@@ -243,141 +248,147 @@ public class GUI {
 		
 		//***************************ADD SALE RECORD******************
 		
-		JPanel topPanel = new JPanel();
-		topPanel.setLocation(0, 20);
-		topPanel.setLayout(null);
-		topPanel.setLayout(new BoxLayout(topPanel, BoxLayout.X_AXIS));
-		AddSaleRecordPanel.add( topPanel, BorderLayout.CENTER );
-		
-		JFormattedTextField AddSaleRecordHeading = new JFormattedTextField();
-		AddSaleRecordHeading.setEnabled(false);
-		AddSaleRecordHeading.setEditable(false);
-		AddSaleRecordHeading.setHorizontalAlignment(SwingConstants.CENTER);
-		AddSaleRecordHeading.setText(ADD_SALES_RECORD);
-		AddSaleRecordHeading.setBounds(0, 0, 437, 20);
-		AddSaleRecordPanel.add(AddSaleRecordHeading, BorderLayout.NORTH);
-		
-		JPanel bottomPanel = new JPanel();
-		AddSaleRecordPanel.add(bottomPanel, BorderLayout.SOUTH);
-		
-		String SaleRecordColumnNames[] = { "Item Name", "Quantity", "Price Per Item", "Date" };
+				JPanel topPanel = new JPanel();
+				topPanel.setLocation(0, 20);
+				topPanel.setLayout(null);
+				topPanel.setLayout(new BoxLayout(topPanel, BoxLayout.X_AXIS));
+				AddSaleRecordPanel.add( topPanel, BorderLayout.CENTER );
+				
+				JFormattedTextField AddSaleRecordHeading = new JFormattedTextField();
+				AddSaleRecordHeading.setEnabled(false);
+				AddSaleRecordHeading.setEditable(false);
+				AddSaleRecordHeading.setHorizontalAlignment(SwingConstants.CENTER);
+				AddSaleRecordHeading.setText(ADD_SALES_RECORD);
+				AddSaleRecordHeading.setBounds(0, 0, 437, 20);
+				AddSaleRecordPanel.add(AddSaleRecordHeading, BorderLayout.NORTH);
+				
+				JPanel bottomPanel = new JPanel();
+				AddSaleRecordPanel.add(bottomPanel, BorderLayout.SOUTH);
+				
+				String SaleRecordColumnNames[] = { "Item Name", "Quantity", "Price Per Item", "Date" };
 
-		// Create some data
-		String SaleRecordDataValues[][] =
-		{
-			{ "", "", "", "" },
-		};
-		
-		topPanel.setLayout(new BoxLayout(topPanel, BoxLayout.X_AXIS));
-		
-		// Create a new table instance
-		DefaultTableModel saleRecrodModel = new DefaultTableModel(SaleRecordDataValues, SaleRecordColumnNames);
+				// Create some data
+				String SaleRecordDataValues[][] =
+				{
+					{ "", "", "", "" },
+				};
+				
+				topPanel.setLayout(new BoxLayout(topPanel, BoxLayout.X_AXIS));
+				
+				// Create a new table instance
+				DefaultTableModel saleRecrodModel = new DefaultTableModel(SaleRecordDataValues, SaleRecordColumnNames);
 
-		//Disable User from editing certain columns
-		JTable saleRecrodTable = new JTable( saleRecrodModel ){
-			@Override
-		    public boolean isCellEditable(int row, int column) {
-		        return column == 0 || column == 1 || column == 3? true : false;
-		    }
-		};
-		
-		saleRecrodTable.setPreferredScrollableViewportSize(new Dimension(500, 70)); //500, 70
-		saleRecrodTable.setFillsViewportHeight(true);
+				//Disable User from editing certain columns
+				JTable saleRecrodTable = new JTable( saleRecrodModel ){
+					@Override
+				    public boolean isCellEditable(int row, int column) {
+				        return column == 0 || column == 1 || column == 3? true : false;
+				    }
+				};
+				
+				saleRecrodTable.setPreferredScrollableViewportSize(new Dimension(500, 70)); //500, 70
+				saleRecrodTable.setFillsViewportHeight(true);
 
-        TableColumn ItemNameColumn = saleRecrodTable.getColumnModel().getColumn(0);
-        JComboBox<String> ItemNameComboBox = new JComboBox<String>();
-        
-		StockItems = sic.selectStockItem();
-		for(int i = 0; i < StockItems.size(); i++){
-			StockItemNames.add(i, StockItems.get(i).getName());
-		}
-        
-        for(int i = 0; i < sic.selectStockItem().size(); i++)
-        {
-        	ItemNameComboBox.addItem(StockItemNames.get(i));
-        }
-
-        ItemNameColumn.setCellEditor(new DefaultCellEditor(ItemNameComboBox));
-        
-		// Add the table to a scrolling pane
-		JScrollPane scrollPane = new JScrollPane( saleRecrodTable );
-		scrollPane.setBounds(0, 20, 450, 300);
-		topPanel.add( scrollPane );
-		AddSaleRecordPanel.add(topPanel);
-		
-		JButton btnNewButton = new JButton("Add Sale Item");
-		btnNewButton.setBounds(144, 231, 99, 23);
-		btnNewButton.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				saleRecrodModel.addRow(new Object[]{"", "", ""});
-			}
-		});
-		
-		JButton AddSalesRecordHomePageButton = new JButton(HOME_PAGE);
-		AddSalesRecordHomePageButton.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				AddSaleRecordPanel.setVisible(false);
-				HomePagePanel.setVisible(true);
-			}
-		});
-		bottomPanel.add(AddSalesRecordHomePageButton);
-		
-		bottomPanel.add(btnNewButton);
-		
-		JTextPane txtpnTotalPrice = new JTextPane();
-		txtpnTotalPrice.setText("Total Price");
-		bottomPanel.add(txtpnTotalPrice);
-		
-		textField = new JTextField();
-		bottomPanel.add(textField);
-		textField.setEditable(false);
-		textField.setColumns(5);
-	
-		//Add Sale Data to db
-		List<Integer> itemIds= new ArrayList<Integer>();
-		List<Double> prices= new ArrayList<Double>();
-		List<Integer> qtys= new ArrayList<Integer>();
-		
-		JButton AddSaleRecordFinishButton = new JButton("Finish");
-		AddSaleRecordFinishButton.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				try{
-					for(int i = 0; i < saleRecrodTable.getRowCount(); i++){
-						itemIds.add(sic.selectStockItemByName(saleRecrodTable.getValueAt(i, 0).toString()).getStockId());
-						prices.add(Double.parseDouble(saleRecrodTable.getValueAt(i, 2).toString()));
-						qtys.add(Integer.parseInt(saleRecrodTable.getValueAt(i, 1).toString()));
-					}
-					src.addSaleRecord(saleRecrodTable.getValueAt(0, 3).toString(),itemIds, prices, qtys);
-					for(int i = saleRecrodTable.getRowCount(); i < 1; i--){
-						((DefaultTableModel)saleRecrodTable.getModel()).removeRow(i);
-					}
-				}catch(Exception e1){
-					JOptionPane.showMessageDialog(null, "Error in data", "InfoBox:", JOptionPane.INFORMATION_MESSAGE);
+		        TableColumn ItemNameColumn = saleRecrodTable.getColumnModel().getColumn(0);
+		        JComboBox<String> ItemNameComboBox = new JComboBox<String>();
+		        
+				StockItems = sic.selectStockItem();
+				for(int i = 0; i < StockItems.size(); i++){
+					StockItemNames.add(i, StockItems.get(i).getName());
 				}
-			}
-		});
-		
-		saleRecrodTable.getModel().addTableModelListener(new TableModelListener() {
-			@Override
-			public void tableChanged(javax.swing.event.TableModelEvent e) {
-				int itemId = 0;
+		        
+		        for(int i = 0; i < sic.selectStockItem().size(); i++)
+		        {
+		        	ItemNameComboBox.addItem(StockItemNames.get(i));
+		        }
+
+		        ItemNameColumn.setCellEditor(new DefaultCellEditor(ItemNameComboBox));
+		        
+				// Add the table to a scrolling pane
+				JScrollPane scrollPane = new JScrollPane( saleRecrodTable );
+				scrollPane.setBounds(0, 20, 450, 300);
+				topPanel.add( scrollPane );
+				AddSaleRecordPanel.add(topPanel);
+				
+				JButton btnNewButton = new JButton("Add Sale Item");
+				btnNewButton.setBounds(144, 231, 99, 23);
+				btnNewButton.addActionListener(new ActionListener() {
+					public void actionPerformed(ActionEvent e) {
+						saleRecrodModel.addRow(new Object[]{"", "", ""});
+					}
+				});
+				
+				JButton AddSalesRecordHomePageButton = new JButton(HOME_PAGE);
+				AddSalesRecordHomePageButton.addActionListener(new ActionListener() {
+					public void actionPerformed(ActionEvent e) {
+						AddSaleRecordPanel.setVisible(false);
+						HomePagePanel.setVisible(true);
+					}
+				});
+				bottomPanel.add(AddSalesRecordHomePageButton);
+				
+				bottomPanel.add(btnNewButton);
+				
+				JTextPane txtpnTotalPrice = new JTextPane();
+				txtpnTotalPrice.setText("Total Price");
+				bottomPanel.add(txtpnTotalPrice);
+				
+				TotalPriceTextField = new JTextField();
+				bottomPanel.add(TotalPriceTextField);
+				TotalPriceTextField.setEditable(false);
+				TotalPriceTextField.setColumns(5);
 			
-				for(int i = 0; i < saleRecrodTable.getRowCount(); i++){
-					if(saleRecrodTable.getValueAt(i, 0).toString() != null){
-						itemId = sic.selectStockItemByName(saleRecrodTable.getValueAt(i, 0).toString()).getStockId();
-						
-						double price = sic.selectStockItem(itemId).getListPrice();
-						String s = Double.toString(price);
-						if(saleRecrodTable.getValueAt(i, 2).toString() == null){
-							saleRecrodTable.setValueAt(sic.selectStockItem(itemId).getListPrice(), i, 2);
-							saleRecrodTable.setValueAt(timeStamp,i,3);
+				//Add Sale Data to db
+				List<Integer> itemIds= new ArrayList<Integer>();
+				List<Double> prices= new ArrayList<Double>();
+				List<Integer> qtys= new ArrayList<Integer>();
+				
+				JButton AddSaleRecordFinishButton = new JButton("Finish");
+				AddSaleRecordFinishButton.addActionListener(new ActionListener() {
+					public void actionPerformed(ActionEvent e) {
+						try{
+							for(int i = 0; i < saleRecrodTable.getRowCount(); i++){
+								itemIds.add(sic.selectStockItemByName(saleRecrodTable.getValueAt(i, 0).toString()).getStockId());
+								prices.add(Double.parseDouble(saleRecrodTable.getValueAt(i, 2).toString()));
+								qtys.add(Integer.parseInt(saleRecrodTable.getValueAt(i, 1).toString()));
+							}
+							src.addSaleRecord(saleRecrodTable.getValueAt(0, 3).toString(),itemIds, prices, qtys);
+							for(int i = saleRecrodTable.getRowCount(); i < 1; i--){
+								((DefaultTableModel)saleRecrodTable.getModel()).removeRow(i);
+							}
+						}catch(Exception e1){
+							JOptionPane.showMessageDialog(null, "Error in data", "InfoBox:", JOptionPane.INFORMATION_MESSAGE);
 						}
 					}
-				}
-			}
-		});
-		
-		bottomPanel.add(AddSaleRecordFinishButton);
+				});
+				
+				saleRecrodTable.getModel().addTableModelListener(new TableModelListener() {
+					@Override
+					public void tableChanged(javax.swing.event.TableModelEvent e) {
+						int itemId = 0;
+						double totalCost = 0;
+						for(int i = 0; i < saleRecrodTable.getRowCount(); i++){
+							if(!saleRecrodTable.getValueAt(i, 0).toString().equals("")){
+								itemId = sic.selectStockItemByName(saleRecrodTable.getValueAt(i, 0).toString()).getStockId();
+								
+								double price = sic.selectStockItem(itemId).getListPrice();
+								String s = Double.toString(price);
+								if(saleRecrodTable.getValueAt(i, 2).toString().equals("")){
+									saleRecrodTable.setValueAt(sic.selectStockItem(itemId).getListPrice(), i, 2);
+									saleRecrodTable.setValueAt(timeStamp,i,3);
+								}
+							}
+							if(!saleRecrodTable.getValueAt(i,1).toString().equals("")){
+								itemId = sic.selectStockItemByName(saleRecrodTable.getValueAt(i, 0).toString()).getStockId();
+								double tempValue = sic.selectStockItem(itemId).getListPrice();
+								totalCost += tempValue * Double.parseDouble(saleRecrodTable.getValueAt(i,1).toString());
+							}
+						}
+						TotalPriceTextField.setText(Double.toString(totalCost));
+					}
+				});
+				
+				bottomPanel.add(AddSaleRecordFinishButton);
 				
 		//******************************************************************
 		
@@ -731,7 +742,6 @@ public class GUI {
 		//******************************************************************
 		
 		//***************Display Stock Items******************
-		
 		DisplayStockItemsPanel.setLayout(new BorderLayout(0, 0));
 		  
 		JPanel StockItemTopPanel = new JPanel();
@@ -787,8 +797,73 @@ public class GUI {
 			}
 		});
 		StockItemBottomPanel.add(ItemDisplayHomePageButton);
-
+		
+	//***************************************************
+	
+	//***************Display Sale Records******************
+	
+	DisplaySaleRecordPanel.setLayout(new BorderLayout(0, 0));
+	  
+	JPanel SaleRecordsTopPanel = new JPanel();
+	SaleRecordsTopPanel.setLocation(0, 20);
+	DisplaySaleRecordPanel.add( SaleRecordsTopPanel, BorderLayout.CENTER );
+	
+	JFormattedTextField DisplaySaleRecordHeading = new JFormattedTextField();
+	DisplaySaleRecordHeading.setEnabled(false);
+	DisplaySaleRecordHeading.setEditable(false);
+	DisplaySaleRecordHeading.setHorizontalAlignment(SwingConstants.CENTER);
+	DisplaySaleRecordHeading.setText(DISPLAY_STOCK_ITEMS);
+	DisplaySaleRecordHeading.setBounds(0, 0, 437, 20);
+	DisplaySaleRecordPanel.add(DisplaySaleRecordHeading, BorderLayout.NORTH);
+	
+	JPanel SaleRecordBottomPanel = new JPanel();
+	DisplaySaleRecordPanel.add(SaleRecordBottomPanel, BorderLayout.SOUTH);
+	
+	List<SalesRecord> SaleRecords= src.displayAllSaleRecords();
+	List<SalesOrderlineRecord> OrderRecords = new ArrayList<SalesOrderlineRecord>() ;
+	
+	//Initialize sale records array for table population
+	for(int i = 0; i < SaleRecords.size(); i++){
+		OrderRecords.add(src.displaySaleRecord(SaleRecords.get(i).getSaleId()));
 	}
+	
+	String SaleRecordcolumnNames[] = { "OrderLine ID", "SaleID", "Item Name", "Quantity" };
+	String[][] SaleRecordValues = new String[StockItems.size()][6];
+	
+	for(int i = 0; i < SaleRecords.size(); i++){
+		SaleRecordValues[i][0] = Integer.toString(StockItems.get(i).getStockId());
+		SaleRecordValues[i][1] = Integer.toString(SaleRecords.get(i).getSaleId());
+		//SaleRecordValues[i][2] = sic.selectStockItem(src.displaySaleRecord(i).itemId()).getName();
+		//SaleRecordValues[i][3] = Integer.toString(src.displaySaleRecord(i).getQty());
+	}
+	
+	SaleRecordsTopPanel.setLayout(null);
+	SaleRecordsTopPanel.setLayout(new BoxLayout(SaleRecordsTopPanel, BoxLayout.X_AXIS));
+	
+	// Create a new table instance
+
+	//DefaultTableModel model = new DefaultTableModel(SaleRecorddataValues, SaleRecordcolumnNames);
+	DefaultTableModel SaleRecordDisplaymodel = new DefaultTableModel(SaleRecordValues, SaleRecordcolumnNames);
+	JTable SaleRecordTable = new JTable( SaleRecordDisplaymodel );
+
+	SaleRecordTable.setPreferredScrollableViewportSize(new Dimension(500, 70)); //500, 70
+	SaleRecordTable.setFillsViewportHeight(true);
+    
+	// Add the table to a scrolling pane
+	JScrollPane SaleRecordScrollPane = new JScrollPane( SaleRecordTable );
+	SaleRecordScrollPane.setBounds(0, 20, 450, 300);
+	DisplaySaleRecordPanel.add( SaleRecordScrollPane );
+	
+	JButton SaleRecordHomePageButton = new JButton(HOME_PAGE);
+	SaleRecordHomePageButton.addActionListener(new ActionListener() {
+		public void actionPerformed(ActionEvent e) {
+			HomePagePanel.setVisible(true);
+			DisplaySaleRecordPanel.setVisible(false);
+		}
+	});
+	StockItemBottomPanel.add(SaleRecordHomePageButton);
+}
+	
 	
 	//******************************************************************
 

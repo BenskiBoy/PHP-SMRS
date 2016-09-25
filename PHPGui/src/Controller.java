@@ -32,7 +32,7 @@ public class Controller {
 		
 		try
 		{
-			Connection con = DriverManager.getConnection(CI.getHost, CI.getUsername, CI.getPassword);
+			Connection con = DriverManager.getConnection(CI.getHost(), CI.getUsername(), CI.getPassword());
 			Statement stmt = con.createStatement();
 			stmt.executeUpdate(mod.addSaleItem(date), Statement.RETURN_GENERATED_KEYS);
 
@@ -72,7 +72,7 @@ public class Controller {
 
 		try
 		{
-			Connection con = DriverManager.getConnection(CI.getHost, CI.getUsername, CI.getPassword);
+			Connection con = DriverManager.getConnection(CI.getHost(), CI.getUsername(), CI.getPassword());
 			Statement stmt = con.createStatement();
 
 			rs = stmt.executeQuery(mod.displayAllSaleItems());
@@ -110,7 +110,7 @@ public class Controller {
 		
 		try
 		{
-			Connection con = DriverManager.getConnection(CI.getHost, CI.getUsername, CI.getPassword);
+			Connection con = DriverManager.getConnection(CI.getHost(), CI.getUsername(), CI.getPassword());
 			Statement stmt = con.createStatement();
 
 			rs = stmt.executeQuery(mod.displaySaleItem(id));
@@ -150,7 +150,7 @@ public class Controller {
 		Boolean result = false;
 		try
 		{
-			Connection con = DriverManager.getConnection(CI.getHost, CI.getUsername, CI.getPassword);
+			Connection con = DriverManager.getConnection(CI.getHost(), CI.getUsername(), CI.getPassword());
 			Statement stmt = con.createStatement();
 			result = stmt.execute(mod.insertSaleItem(stock));
 			con.close();
@@ -170,7 +170,7 @@ public class Controller {
 		List<StockItem> result = new ArrayList<StockItem>();
 		try
 		{
-			Connection con = DriverManager.getConnection(CI.getHost, CI.getUsername, CI.getPassword);
+			Connection con = DriverManager.getConnection(CI.getHost(), CI.getUsername(), CI.getPassword());
 			Statement stmt = con.createStatement();
 			ResultSet rs = stmt.executeQuery(mod.selectStockItem());
 			while(rs.next())
@@ -194,7 +194,7 @@ public class Controller {
 		StockItem result = null;
 		try
 		{
-			Connection con = DriverManager.getConnection(CI.getHost, CI.getUsername, CI.getPassword);
+			Connection con = DriverManager.getConnection(CI.getHost(), CI.getUsername(), CI.getPassword());
 			Statement stmt = con.createStatement();
 			ResultSet rs = stmt.executeQuery(mod.selectStockItem(id));
 			while(rs.next())
@@ -217,7 +217,7 @@ public class Controller {
 		StockItem result = null;
 		try
 		{
-			Connection con = DriverManager.getConnection(CI.getHost, CI.getUsername, CI.getPassword);
+			Connection con = DriverManager.getConnection(CI.getHost(), CI.getUsername(), CI.getPassword());
 			Statement stmt = con.createStatement();
 			ResultSet rs = stmt.executeQuery(mod.selectStockItemByName(name));
 			while(rs.next())
@@ -240,7 +240,7 @@ public class Controller {
 		Boolean result = false;
 		try
 		{
-			Connection con = DriverManager.getConnection(CI.getHost, CI.getUsername, CI.getPassword);
+			Connection con = DriverManager.getConnection(CI.getHost(), CI.getUsername(), CI.getPassword());
 			Statement stmt = con.createStatement();
 			result = stmt.execute(mod.updateStockItem(id, s));
 			con.close();
@@ -258,8 +258,8 @@ public class Controller {
 	//Report Generation
 	//
 
-	public generateSaleValueReport ()
+	public void generateSaleValueReport ()
 	{
-		reportSaleValue.generateReport (14, CI, mod);
+		//reportSaleValue.generateReport (14, CI, mod);
 	}
 }

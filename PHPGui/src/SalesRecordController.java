@@ -21,6 +21,8 @@ public class SalesRecordController {
 	private SalesRecordModel srm = new SalesRecordModel ();
 	
 	//Method to validate user input
+	
+	/*
 	private Boolean recordCheckRegex (int qty)
 	{
 		Boolean result = true;
@@ -31,7 +33,7 @@ public class SalesRecordController {
 		}
 		
 		return result;
-	}
+	}*/
 	
 	Boolean addSaleRecord (String date, List<Integer> itemId, List<Double> price, List<Integer> qty)
 	{
@@ -39,10 +41,10 @@ public class SalesRecordController {
 		int incKey = 0;
 		int count = price.size();
 		
-		if (!recordCheckRegex(qty))
-		{
-			throw new IllegalArgumentException("Invalid Input");
-		}
+		//if (!recordCheckRegex(qty))
+		//{
+		//	throw new IllegalArgumentException("Invalid Input");
+		//}
 		
 		try
 		{
