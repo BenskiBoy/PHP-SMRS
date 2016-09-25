@@ -64,7 +64,7 @@ public class Controller {
 		return result;
 	}
 
-	public List<SalesRecord> displayAllSaleRecords ()
+	private List<SalesRecord> displayAllSaleRecords ()
 	{
 		ResultSet rs;
 		List<SalesRecord> records = new ArrayList<SalesRecord>();
@@ -98,7 +98,7 @@ public class Controller {
 		return records;
 	}
 
-	public SalesOrderlineRecord displaySaleRecord (int id)
+	private SalesOrderlineRecord displaySaleRecord (int id)
 	{
 		SalesOrderlineRecord record = null;
 		int saleId = id;
