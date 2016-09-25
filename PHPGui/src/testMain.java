@@ -17,7 +17,9 @@ public class testMain {
 		rows[1] = predict.generateSingleItemReport(100,350, 60);
 		rows[2] = predict.generateSingleItemReport(50,350, 14);
 		rows[0] = predict.generateSingleItemReport(11,350, 28);
-		ReportCsvFileWriter rcfw = new ReportCsvFileWriter();		
+		
+		ReportCsvFileWriter rcfw = new ReportCsvFileWriter();	
+		
 		if(rcfw.writeCsvReportToFile("itemPrediction.csv", predict.getItemQuantityReportHeader(), rows)){
 			System.out.println("File write successful");
 		}else{
