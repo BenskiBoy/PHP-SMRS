@@ -67,8 +67,8 @@ public class GUI {
 	private JFrame frame;
 	private JTextField TotalPriceTextField;
 	
-	private Controller Control = new Controller();
-	
+	private StockItemController sic = new StockItemController();
+	private SalesRecordController src = new SalesRecordController();
 	private List<StockItem> StockItems = new ArrayList<StockItem>();
 	private List<String> StockItemNames = new ArrayList<String>();
 	
@@ -232,7 +232,7 @@ public class GUI {
 				try {
 					//TODO This is a dummy function. Add real method.
 					StockItem si = new StockItem(0, AddStockNameEditorPane.getText(), "DEFAULT MANUFACTURER", AddStockDescriptionEditorPane.getText(), Double.parseDouble(AddStockWholeSalePriceEditerPane.getText()), Integer.parseInt(AddStockQuantityEditorPane.getText()));
-					Control.insertStockItem(si);
+					sic.insertStockItem(si);
 					//AddStockItem(, , Integer.parseInt(AddStockSaleEditorPane.getText()), , );
 				} catch (IndexOutOfBoundsException e) {
 					
@@ -292,12 +292,12 @@ public class GUI {
 		        TableColumn ItemNameColumn = saleRecrodTable.getColumnModel().getColumn(0);
 		        JComboBox<String> ItemNameComboBox = new JComboBox<String>();
 		        
-				StockItems = Control.selectStockItem();
+				StockItems = sic.selectStockItem();
 				for(int i = 0; i < StockItems.size(); i++){
 					StockItemNames.add(i, StockItems.get(i).getName());
 				}
 		        
-		        for(int i = 0; i < Control.selectStockItem().size(); i++)
+		        for(int i = 0; i < sic.selectStockItem().size(); i++)
 		        {
 		        	ItemNameComboBox.addItem(StockItemNames.get(i));
 		        }
@@ -348,11 +348,11 @@ public class GUI {
 					public void actionPerformed(ActionEvent e) {
 						try{
 							for(int i = 0; i < saleRecrodTable.getRowCount(); i++){
-								itemIds.add(Control.selectStockItemByName(saleRecrodTable.getValueAt(i, 0).toString()).getStockId());
+								itemIds.add(sic.selectStockItemByName(saleRecrodTable.getValueAt(i, 0).toString()).getStockId());
 								prices.add(Double.parseDouble(saleRecrodTable.getValueAt(i, 2).toString()));
 								qtys.add(Integer.parseInt(saleRecrodTable.getValueAt(i, 1).toString()));
 							}
-							Control.addSaleRecord(saleRecrodTable.getValueAt(0, 3).toString(),itemIds, prices, qtys);
+							src.addSaleRecord(saleRecrodTable.getValueAt(0, 3).toString(),itemIds, prices, qtys);
 							for(int i = saleRecrodTable.getRowCount(); i < 1; i--){
 								((DefaultTableModel)saleRecrodTable.getModel()).removeRow(i);
 							}
@@ -369,18 +369,18 @@ public class GUI {
 						double totalCost = 0;
 						for(int i = 0; i < saleRecrodTable.getRowCount(); i++){
 							if(!saleRecrodTable.getValueAt(i, 0).toString().equals("")){
-								itemId = Control.selectStockItemByName(saleRecrodTable.getValueAt(i, 0).toString()).getStockId();
+								itemId = sic.selectStockItemByName(saleRecrodTable.getValueAt(i, 0).toString()).getStockId();
 								
-								double price = Control.selectStockItem(itemId).getListPrice();
+								double price = sic.selectStockItem(itemId).getListPrice();
 								String s = Double.toString(price);
 								if(saleRecrodTable.getValueAt(i, 2).toString().equals("")){
-									saleRecrodTable.setValueAt(Control.selectStockItem(itemId).getListPrice(), i, 2);
+									saleRecrodTable.setValueAt(sic.selectStockItem(itemId).getListPrice(), i, 2);
 									saleRecrodTable.setValueAt(timeStamp,i,3);
 								}
 							}
 							if(!saleRecrodTable.getValueAt(i,1).toString().equals("")){
-								itemId = Control.selectStockItemByName(saleRecrodTable.getValueAt(i, 0).toString()).getStockId();
-								double tempValue = Control.selectStockItem(itemId).getListPrice();
+								itemId = sic.selectStockItemByName(saleRecrodTable.getValueAt(i, 0).toString()).getStockId();
+								double tempValue = sic.selectStockItem(itemId).getListPrice();
 								totalCost += tempValue * Double.parseDouble(saleRecrodTable.getValueAt(i,1).toString());
 							}
 						}
@@ -462,7 +462,7 @@ public class GUI {
 			}
 		});
 		
-		StockItems = Control.selectStockItem();
+		StockItems = sic.selectStockItem();
 		for(int i = 0; i < StockItems.size(); i++){
 			StockItemNames.add(i, StockItems.get(i).getName());
 		}
@@ -470,10 +470,10 @@ public class GUI {
 		JComboBox<?> EditStockItemSelectionList = new JComboBox<Object>(StockItemNames.toArray());
 		EditStockItemSelectionList.addActionListener (new ActionListener () {
 		    public void actionPerformed(ActionEvent e) {
-		    	EditStockQuantityEditorPane.setText(Integer.toString(Control.selectStockItemByName(EditStockItemSelectionList.getSelectedItem().toString()).getQuantity()));
-		    	EditStockSaleEditorPane.setText(Double.toString(Control.selectStockItemByName(EditStockItemSelectionList.getSelectedItem().toString()).getListPrice()));
-		    	EditStockManufacturerEditerPane.setText(Control.selectStockItemByName(EditStockItemSelectionList.getSelectedItem().toString()).getManufacturer());
-		    	EditStockDescriptionEditorPane.setText(Control.selectStockItemByName(EditStockItemSelectionList.getSelectedItem().toString()).getDescription());
+		    	EditStockQuantityEditorPane.setText(Integer.toString(sic.selectStockItemByName(EditStockItemSelectionList.getSelectedItem().toString()).getQuantity()));
+		    	EditStockSaleEditorPane.setText(Double.toString(sic.selectStockItemByName(EditStockItemSelectionList.getSelectedItem().toString()).getListPrice()));
+		    	EditStockManufacturerEditerPane.setText(sic.selectStockItemByName(EditStockItemSelectionList.getSelectedItem().toString()).getManufacturer());
+		    	EditStockDescriptionEditorPane.setText(sic.selectStockItemByName(EditStockItemSelectionList.getSelectedItem().toString()).getDescription());
 		    	System.out.println("val changed");
 		    }
 		});
@@ -494,12 +494,12 @@ public class GUI {
 		EditButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				try {
-					StockItem si = Control.selectStockItemByName(EditStockItemSelectionList.getSelectedItem().toString());
+					StockItem si = sic.selectStockItemByName(EditStockItemSelectionList.getSelectedItem().toString());
 					si.setDescription(EditStockDescriptionEditorPane.getText());
 					si.setManufacturer(EditStockManufacturerEditerPane.getText());
 					si.setQuantity(Integer.parseInt(EditStockQuantityEditorPane.getText()));
 					si.setListPrice(Double.parseDouble(EditStockSaleEditorPane.getText()));
-					Control.updateStockItem(si.getStockId(), si);
+					sic.updateStockItem(si.getStockId(), si);
 					System.out.println(si.getStockId());
 					
 					//TODO EDIT NAME
@@ -761,7 +761,7 @@ public class GUI {
 		
 		String columnNames[] = { "ID", "Item Name", "Description", "List Price", "Quantity" };
 
-		StockItems = Control.selectStockItem();
+		StockItems = sic.selectStockItem();
 		String[][] Values = new String[StockItems.size()][6];
 		
 		for(int i = 0; i < StockItems.size(); i++){
@@ -819,12 +819,12 @@ public class GUI {
 	JPanel SaleRecordBottomPanel = new JPanel();
 	DisplaySaleRecordPanel.add(SaleRecordBottomPanel, BorderLayout.SOUTH);
 	
-	List<SalesRecord> SaleRecords= Control.displayAllSaleRecords();
+	List<SalesRecord> SaleRecords= src.displayAllSaleRecords();
 	List<SalesOrderlineRecord> OrderRecords = new ArrayList<SalesOrderlineRecord>() ;
 	
 	//Initialize sale records array for table population
 	for(int i = 0; i < SaleRecords.size(); i++){
-	//	OrderRecords.add(Control.displaySaleRecord(SaleRecords.get(i).getSaleId()));
+		OrderRecords.add(src.displaySaleRecord(SaleRecords.get(i).getSaleId()));
 	}
 	
 	String SaleRecordcolumnNames[] = { "OrderLine ID", "SaleID", "Item Name", "Quantity" };
@@ -833,8 +833,8 @@ public class GUI {
 	for(int i = 0; i < SaleRecords.size(); i++){
 		SaleRecordValues[i][0] = Integer.toString(StockItems.get(i).getStockId());
 		SaleRecordValues[i][1] = Integer.toString(SaleRecords.get(i).getSaleId());
-		//SaleRecordValues[i][2] = Control.selectStockItem(Control.displaySaleRecord(i).itemId()).getName();
-		//SaleRecordValues[i][3] = Integer.toString(Control.displaySaleRecord(i).getQty());
+		//SaleRecordValues[i][2] = sic.selectStockItem(src.displaySaleRecord(i).itemId()).getName();
+		//SaleRecordValues[i][3] = Integer.toString(src.displaySaleRecord(i).getQty());
 	}
 	
 	SaleRecordsTopPanel.setLayout(null);

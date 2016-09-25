@@ -13,7 +13,7 @@ public class SalesValue {
 	private DateFormat df = new SimpleDateFormat("yyyy-MM-dd");
 	private ReportCsvFileWriter writer = new ReportCsvFileWriter ();
 
-	public boolean generateReport (int dataRange, ConnectionInfo CI, Model mod)
+	public boolean generateReport (int dataRange, Controller CI, Model mod)
 	{
 		boolean result = false;
 		result = writer.writeCsvReportToFile (fileName, header, generateSalesValueReport(dataRange, CI, mod));
@@ -24,7 +24,7 @@ public class SalesValue {
 	//dataRange - positive integer pertaining to amount of days in the past to generate report for
 	public String[] generateSalesValueReport (int dataRange, ConnectionInfo CI, Model mod)
 	{
-		String[] result = null;
+		String[] result;
 		String startDate = "";
 		String endDate = "";
 		int itemCount = 0;
@@ -36,7 +36,7 @@ public class SalesValue {
 
 		try
 		{
-			Connection con = DriverManager.getConnection(CI.getHost(), CI.getUsername(), CI.getPassword());
+			Connection con = DriverManager.getConnection(CI.getHost, CI.getUsername, CI.getPassword);
 			Statement stmt = con.createStatement();
 
 			rs = stmt.executeQuery(mod.fetchSalesValue(startDate));
@@ -85,7 +85,7 @@ public class SalesValue {
 
 	public String getSalesValueReportHeader ()
 	{
-		return header;
+		return salesValueReportHeader;
 	}
 
 }

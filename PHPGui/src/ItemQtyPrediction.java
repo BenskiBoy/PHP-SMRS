@@ -20,6 +20,7 @@ public class ItemQtyPrediction {
 	private static ConnectionInfo conInfo = null;
 	private static double rateMetric = 14; //number of days over which the rate applies
 	private DateFormat df;
+	private ReportCsvFileWriter writer = new ReportCsvFileWriter ();
 	
 	//Methods	
 	public ItemQtyPrediction(ConnectionInfo ci){

@@ -24,7 +24,7 @@ public class SalesValue {
 	//dataRange - positive integer pertaining to amount of days in the past to generate report for
 	public String[] generateSalesValueReport (int dataRange, ConnectionInfo CI, Model mod)
 	{
-		String[] result = null;
+		String[] result;
 		String startDate = "";
 		String endDate = "";
 		int itemCount = 0;
@@ -85,7 +85,7 @@ public class SalesValue {
 
 	public String getSalesValueReportHeader ()
 	{
-		return header;
+		return salesValueReportHeader;
 	}
 
 }
