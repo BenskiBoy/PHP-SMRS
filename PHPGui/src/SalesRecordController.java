@@ -15,27 +15,20 @@ public class SalesRecordController {
 	private static String PASSWORD = "password";
 	
 	//Regular expressions for user input validation
-	private String dateRegex = "^(0[1-9]|[12][0-9]|3[01])[- /.](0[1-9]|1[012])[- /.](19|20)\\d\\d$";
 	private String qtyRegex = "^[1-9][0-9]*$";
 	
 	//*Temporary* - to interact with SQL string generation methods
 	private SalesRecordModel srm = new SalesRecordModel ();
 	
-	
-	
 	//Method to validate user input
-	private Boolean recordCheckRegex (String date, int qty)
+	private Boolean recordCheckRegex (int qty)
 	{
 		Boolean result = true;
 		
-		/*if (!(date.toString()).matches(dateRegex))
+		if (!(qty.toString()).matches(qtyRegex))
 		{
 			result = false;
 		}
-		else if (!(qty.toString()).matches(qtyRegex))
-		{
-			result = false;
-		}*/
 		
 		return result;
 	}
@@ -46,10 +39,10 @@ public class SalesRecordController {
 		int incKey = 0;
 		int count = price.size();
 		
-		/*if (!recordCheckRegex(date, qty))
+		if (!recordCheckRegex(qty))
 		{
 			throw new IllegalArgumentException("Invalid Input");
-		}*/
+		}
 		
 		try
 		{
