@@ -28,16 +28,17 @@ public class ItemQtyPrediction {
 	}
 	
 	/**
-	 * Generates a CSV report for a single item predicting its future sale quantity
+	 * Generates a CSV report for a single item predicting its future sale quantity over a requested period of time.
 	 * @param itemId Database Id value of the requested item. Must be confirmed before submitting to this method.
 	 * @param dateRange Range for report history in whole days. Must be a positive integer, indicating number of days in the past.
 	 * @param forwardPrediction Range for forward sales prediction in whole days
-	 * @return CSV format single report line for one item
+	 * @return CSV format single report line for one item without newline character
 	 */
 	public String generateSingleItemReport(int itemId, int dataRange, int forwardPrediction){
 		String itemName = "";
 		int index = 0;
 		int qtyCount = 0;
+		int currentQty = 0;
 		
 		//get oldest date that we want to look at
 		Calendar cal = Calendar.getInstance();
@@ -76,6 +77,14 @@ public class ItemQtyPrediction {
 				qtyCount += rs.getInt(1);
 			}
 			//System.out.println("Total Qty: " + qtyCount);
+			
+			//Retrieve current stock quantity
+			String qtyQuery = "SELECT stockquantity FROM stockItems WHERE idStockItems ='" + itemId + "';";
+			ResultSet rsQty = stmt.executeQuery(qtyQuery);
+			if(rsQty.next()){
+				currentQty = rsQty.getInt(1);
+			}
+			
 		}catch(Exception e){
 			e.printStackTrace();
 		}		
@@ -89,10 +98,11 @@ public class ItemQtyPrediction {
 		//System.out.println("Forward prediction: " + futureSales);
 		
 		//generate csv line
-		String output = itemId + ", " + itemName + ", " + qtyCount + ", " + dataRange + ", " + salesRate + ", " + futureSales + ", " + forwardPrediction;
+		String output = itemId + ", " + itemName + ", " + qtyCount + ", " + dataRange + ", " + salesRate + ", " + currentQty + ", " + futureSales;
 		//System.out.println(itemQuantityReportHeader);
 		//System.out.print(output);
 		return output;
+		
 	}
 	
 	/**
