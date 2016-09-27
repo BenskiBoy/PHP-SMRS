@@ -1,4 +1,7 @@
-//package stockitem;
+package stockitem;
+
+import javax.swing.JOptionPane;
+
 public class StockItem {
 	private int stockId;
 	private String name;
@@ -56,5 +59,26 @@ public class StockItem {
 	}
 	public void decrementQuantity(int amount){
 		this.quantity += amount;
+	}
+	
+	
+	
+	
+//	public void checkQuantityBelow(int value){
+//		if(this.quantity<=value){
+//			String str = this.name+" is currently low on stock";
+//			JOptionPane.showMessageDialog(null, str);
+//		}
+//	}
+	/**
+	 * Check if the stock level of an item is below a certain value
+	 * @param value
+	 * @return true if value is lower than this.quantity
+	 */
+	public boolean checkQuanitityBelow(int value){
+		if(this.quantity<=value){
+			return true;
+		}
+		return false;
 	}
 }
