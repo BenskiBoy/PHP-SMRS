@@ -1,0 +1,928 @@
+import java.awt.BorderLayout;
+import java.awt.CardLayout;
+import java.awt.Color;
+import java.awt.Component;
+import java.awt.Dimension;
+import java.awt.EventQueue;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.List;
+
+import javax.swing.BoxLayout;
+import javax.swing.DefaultCellEditor;
+import javax.swing.JButton;
+import javax.swing.JComboBox;
+import javax.swing.JEditorPane;
+import javax.swing.JFormattedTextField;
+import javax.swing.JFrame;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.JTable;
+import javax.swing.JTextField;
+import javax.swing.JTextPane;
+import javax.swing.SwingConstants;
+import javax.swing.event.DocumentEvent;
+import javax.swing.event.DocumentListener;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
+import javax.swing.event.TableModelListener;
+import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableCellRenderer;
+import javax.swing.table.TableColumn;
+
+public class GUI {
+	private static final String PROGRAM_NAME = "PHP Sales Management And Reporting System";
+	
+	private static final String HOME_PAGE = "Home Page";
+	private static final String STOCK_MANAGEMENT = "Stock Management";
+	private static final String SALES_MANAGEMENT = "Sales Management";
+	private static final String REPORT_GENERATOR = "Report Generator";
+	
+	private static final String ADD_STOCK_ITEM = "Add Stock Item";
+	private static final String EDIT_STOCK_ITEM = "Edit Stock Item";
+	private static final String DISPLAY_STOCK_ITEMS = "Display Stock Items";
+	
+	private static final String ADD_SALES_RECORD = "Add Sales Record";
+	private static final String EDIT_SALES_RECORD = "Edit Sales Record";
+	private static final String DISPLAY_SALES_RECORD = "Display Sales Record";
+	private static final String ID_NUMBER = "ID Number";
+	private static final String MANUFACTURER = "Manufacturer";
+	private static final String ITEM_NAME = "Item Name";
+	private static final String NUMBER_SOLD = "Number Sold";
+	private static final String SALE_DATE = "Sale Date";
+	
+	private static final String NAME = "Name";
+	private static final String DESCRIPTION = "Description";
+	private static final String SALE_PRICE = "Sale Price";
+	private static final String WHOLESALE_PRICE = "Whole Sale Price";
+	private static final String QUANTITY = "Quantity";
+	
+	private static final String ADD = "Add";
+	private static final String EDIT = "Edit";
+	
+	private static final String PASSED_DATA_ERROR = "Error, passed data incorrect";
+	private static final String DATA_INPUT_ERROR = "Data Input Error";
+	private static final String GENERATE_REPORT = "Generate Report";
+
+	private static final int LOW_STOCK_VALUE = 5;
+	
+	private JFrame frame;
+	private JTextField TotalPriceTextField;
+	
+	private Controller Control = new Controller();
+	
+	private ItemQtyPrediction Prediction = new ItemQtyPrediction(Control.getConnectionInfo());
+	
+	private List<StockItem> StockItems = new ArrayList<StockItem>();
+	private List<String> StockItemNames = new ArrayList<String>();
+	
+	private String timeStamp = new SimpleDateFormat("yyyy-MM-DD").format(Calendar.getInstance().getTime());
+
+	/**
+	 * Launch the application.
+	 */
+	public static void main(String[] args) {
+		EventQueue.invokeLater(new Runnable() {
+			public void run() {
+				try {
+					GUI window = new GUI();
+					window.frame.setVisible(true);
+					window.frame.setSize(450, 300);
+					window.frame.setResizable(false);
+					window.frame.setTitle(PROGRAM_NAME);
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+		});
+	}
+
+	/**
+	 * Create the application.
+	 */
+	public GUI() {
+		initialize();
+	}
+
+	/**
+	 * Initialize the contents of the frame.
+	 */
+	@SuppressWarnings("null")
+	private void initialize() {
+		frame = new JFrame();
+		frame.getContentPane().setLayout(new CardLayout(0, 0));
+		
+		//******************************************************************
+		
+		final JPanel HomePagePanel = new JPanel();
+		frame.getContentPane().add(HomePagePanel, "name_11891297357392");
+		HomePagePanel.setLayout(null);
+		
+		final JPanel StockManagerPanel = new JPanel();
+		frame.getContentPane().add(StockManagerPanel, "name_11893316052823");
+		StockManagerPanel.setLayout(null);
+		
+		final JPanel SalesManagerPanel = new JPanel();
+		frame.getContentPane().add(SalesManagerPanel, "name_11894877285838");
+		SalesManagerPanel.setLayout(null);
+		
+		final JPanel AddStockItemPanel = new JPanel();
+		frame.getContentPane().add(AddStockItemPanel, "name_11894877285834");
+		AddStockItemPanel.setLayout(null);
+		
+		final JPanel EditStockItemPanel = new JPanel();
+		frame.getContentPane().add(EditStockItemPanel, "name_11894877285835");
+		EditStockItemPanel.setLayout(null);
+		
+		final JPanel AddSaleRecordPanel = new JPanel();
+		frame.getContentPane().add(AddSaleRecordPanel, "name_11894877285837");
+		AddSaleRecordPanel.setLayout(new BorderLayout(0, 0));
+		
+		final JPanel DisplayStockItemsPanel = new JPanel();
+		frame.getContentPane().add(DisplayStockItemsPanel, "name_247974813788265");
+		DisplayStockItemsPanel.setLayout(null);
+		
+		final JPanel DisplaySaleRecordPanel = new JPanel();
+		frame.getContentPane().add(DisplaySaleRecordPanel, "name_247974813788264");
+		DisplaySaleRecordPanel.setLayout(null);
+		
+		final JPanel ReportPanel = new JPanel();
+		frame.getContentPane().add(ReportPanel, "name_247974813788267");
+		ReportPanel.setLayout(null);
+		
+		//******************************************************************
+		
+		//***************************ADD STOCK ITEM PANEL*******************
+		
+		JTextPane AddStockNameHeading = new JTextPane();
+		AddStockNameHeading.setText(ADD_STOCK_ITEM);
+		AddStockNameHeading.setEnabled(false);
+		AddStockNameHeading.setEditable(false);
+		AddStockNameHeading.setBounds(10, 72, 100, 20);
+		AddStockItemPanel.add(AddStockNameHeading);
+		
+		JTextPane AddStockDescriptionHeading = new JTextPane();
+		AddStockDescriptionHeading.setEnabled(false);
+		AddStockDescriptionHeading.setEditable(false);
+		AddStockDescriptionHeading.setText(DESCRIPTION);
+		AddStockDescriptionHeading.setBounds(10, 103, 100, 20);
+		AddStockItemPanel.add(AddStockDescriptionHeading);
+		
+		JTextPane AddStockSalePriceHeading = new JTextPane();
+		AddStockSalePriceHeading.setEnabled(false);
+		AddStockSalePriceHeading.setEditable(false);
+		AddStockSalePriceHeading.setText(SALE_PRICE);
+		AddStockSalePriceHeading.setBounds(10, 134, 100, 20);
+		AddStockItemPanel.add(AddStockSalePriceHeading);
+		
+		JTextPane AddStockWholeSalePriceHeading = new JTextPane();
+		AddStockWholeSalePriceHeading.setEnabled(false);
+		AddStockWholeSalePriceHeading.setEditable(false);
+		AddStockWholeSalePriceHeading.setText(WHOLESALE_PRICE);
+		AddStockWholeSalePriceHeading.setBounds(10, 165, 100, 20);
+		AddStockItemPanel.add(AddStockWholeSalePriceHeading);
+		
+		JTextPane AddStockQuantityHeading = new JTextPane();
+		AddStockQuantityHeading.setEnabled(false);
+		AddStockQuantityHeading.setEditable(false);
+		AddStockQuantityHeading.setText(QUANTITY);
+		AddStockQuantityHeading.setBounds(10, 196, 100, 20);
+		AddStockItemPanel.add(AddStockQuantityHeading);
+		
+		JEditorPane AddStockNameEditorPane = new JEditorPane();
+		AddStockNameEditorPane.setBounds(120, 72, 304, 20);
+		AddStockItemPanel.add(AddStockNameEditorPane);
+		
+		JEditorPane AddStockDescriptionEditorPane = new JEditorPane();
+		AddStockDescriptionEditorPane.setBounds(120, 103, 304, 20);
+		AddStockItemPanel.add(AddStockDescriptionEditorPane);
+		
+		JEditorPane AddStockWholeSalePriceEditerPane = new JEditorPane();
+		AddStockWholeSalePriceEditerPane.setBounds(120, 165, 304, 20);
+		AddStockItemPanel.add(AddStockWholeSalePriceEditerPane);
+		
+		JEditorPane AddStockQuantityEditorPane = new JEditorPane();
+		AddStockQuantityEditorPane.setBounds(120, 196, 304, 20);
+		AddStockItemPanel.add(AddStockQuantityEditorPane);
+		
+		JEditorPane AddStockSaleEditorPane = new JEditorPane();
+		AddStockSaleEditorPane.setBounds(120, 134, 304, 20);
+		AddStockItemPanel.add(AddStockSaleEditorPane);
+		
+		JFormattedTextField AddStockItemHeading = new JFormattedTextField();
+		AddStockItemHeading.setText(STOCK_MANAGEMENT);
+		AddStockItemHeading.setHorizontalAlignment(SwingConstants.CENTER);
+		AddStockItemHeading.setEnabled(false);
+		AddStockItemHeading.setEditable(false);
+		AddStockItemHeading.setBounds(10, 11, 414, 23);
+		AddStockItemPanel.add(AddStockItemHeading);
+		
+		JButton AddStockItemHomePageButton = new JButton(HOME_PAGE);
+		AddStockItemHomePageButton.setBounds(10, 227, 100, 23);
+		AddStockItemPanel.add(AddStockItemHomePageButton);
+		AddStockItemHomePageButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				HomePagePanel.setVisible(true);
+				AddStockItemPanel.setVisible(false);
+			}
+		});
+
+		//Asdd Stock Item
+		JButton AddStockItemEditButton = new JButton(EDIT);
+		AddStockItemEditButton.setBounds(324, 227, 100, 23);
+		AddStockItemPanel.add(AddStockItemEditButton);
+		AddStockItemEditButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				try {
+					//TODO This is a dummy function. Add real method.
+					StockItem si = new StockItem(0, AddStockNameEditorPane.getText(), "DEFAULT MANUFACTURER", AddStockDescriptionEditorPane.getText(), Double.parseDouble(AddStockWholeSalePriceEditerPane.getText()), Integer.parseInt(AddStockQuantityEditorPane.getText()));
+					Control.insertStockItem(si);
+					//AddStockItem(, , Integer.parseInt(AddStockSaleEditorPane.getText()), , );
+				} catch (IndexOutOfBoundsException e) {
+					
+				    //System.err.println("IndexOutOfBoundsException: " + e.getMessage());
+				} catch( NumberFormatException e){
+					JOptionPane.showMessageDialog(frame, PASSED_DATA_ERROR, DATA_INPUT_ERROR, JOptionPane.ERROR_MESSAGE);
+					AddStockNameEditorPane.setText(""); AddStockDescriptionEditorPane.setText(""); AddStockSaleEditorPane.setText(""); AddStockWholeSalePriceEditerPane.setText(""); AddStockQuantityEditorPane.setText("");
+				}
+			}
+		});
+		
+		//******************************************************************
+		
+		//***************************ADD SALE RECORD******************
+		
+				JPanel topPanel = new JPanel();
+				topPanel.setLocation(0, 20);
+				topPanel.setLayout(null);
+				topPanel.setLayout(new BoxLayout(topPanel, BoxLayout.X_AXIS));
+				AddSaleRecordPanel.add( topPanel, BorderLayout.CENTER );
+				
+				JFormattedTextField AddSaleRecordHeading = new JFormattedTextField();
+				AddSaleRecordHeading.setEnabled(false);
+				AddSaleRecordHeading.setEditable(false);
+				AddSaleRecordHeading.setHorizontalAlignment(SwingConstants.CENTER);
+				AddSaleRecordHeading.setText(ADD_SALES_RECORD);
+				AddSaleRecordHeading.setBounds(0, 0, 437, 20);
+				AddSaleRecordPanel.add(AddSaleRecordHeading, BorderLayout.NORTH);
+				
+				JPanel bottomPanel = new JPanel();
+				AddSaleRecordPanel.add(bottomPanel, BorderLayout.SOUTH);
+				
+				String SaleRecordColumnNames[] = { "Item Name", "Quantity", "Price Per Item", "Date" };
+
+				// Create some data
+				String SaleRecordDataValues[][] =
+				{
+					{ "", "", "", "" },
+				};
+				
+				topPanel.setLayout(new BoxLayout(topPanel, BoxLayout.X_AXIS));
+				
+				// Create a new table instance
+				DefaultTableModel saleRecrodModel = new DefaultTableModel(SaleRecordDataValues, SaleRecordColumnNames);
+
+				//Disable User from editing certain columns
+				JTable saleRecrodTable = new JTable( saleRecrodModel ){
+					@Override
+				    public boolean isCellEditable(int row, int column) {
+				        return column == 0 || column == 1 || column == 3? true : false;
+				    }
+				};
+				
+				saleRecrodTable.setPreferredScrollableViewportSize(new Dimension(500, 70)); //500, 70
+				saleRecrodTable.setFillsViewportHeight(true);
+
+		        TableColumn ItemNameColumn = saleRecrodTable.getColumnModel().getColumn(0);
+		        JComboBox<String> ItemNameComboBox = new JComboBox<String>();
+		        
+				StockItems = Control.selectStockItem();
+				for(int i = 0; i < StockItems.size(); i++){
+					StockItemNames.add(i, StockItems.get(i).getName());
+				}
+		        
+		        for(int i = 0; i < StockItems.size(); i++)
+		        {
+		        	ItemNameComboBox.addItem(StockItemNames.get(i));
+		        }
+
+		        ItemNameColumn.setCellEditor(new DefaultCellEditor(ItemNameComboBox));
+		        
+				// Add the table to a scrolling pane
+				JScrollPane scrollPane = new JScrollPane( saleRecrodTable );
+				scrollPane.setBounds(0, 20, 450, 300);
+				topPanel.add( scrollPane );
+				AddSaleRecordPanel.add(topPanel);
+				
+				JButton btnNewButton = new JButton("Add Sale Item");
+				btnNewButton.setBounds(144, 231, 99, 23);
+				btnNewButton.addActionListener(new ActionListener() {
+					public void actionPerformed(ActionEvent e) {
+						saleRecrodModel.addRow(new Object[]{"", "", ""});
+					}
+				});
+				
+				JButton AddSalesRecordHomePageButton = new JButton(HOME_PAGE);
+				AddSalesRecordHomePageButton.addActionListener(new ActionListener() {
+					public void actionPerformed(ActionEvent e) {
+						AddSaleRecordPanel.setVisible(false);
+						HomePagePanel.setVisible(true);
+					}
+				});
+				bottomPanel.add(AddSalesRecordHomePageButton);
+				
+				bottomPanel.add(btnNewButton);
+				
+				JTextPane txtpnTotalPrice = new JTextPane();
+				txtpnTotalPrice.setText("Total Price");
+				bottomPanel.add(txtpnTotalPrice);
+				
+				TotalPriceTextField = new JTextField();
+				bottomPanel.add(TotalPriceTextField);
+				TotalPriceTextField.setEditable(false);
+				TotalPriceTextField.setColumns(5);
+			
+				//Add Sale Data to db
+				List<Integer> itemIds= new ArrayList<Integer>();
+				List<Double> prices= new ArrayList<Double>();
+				List<Integer> qtys= new ArrayList<Integer>();
+				
+				JButton AddSaleRecordFinishButton = new JButton("Finish");
+				AddSaleRecordFinishButton.addActionListener(new ActionListener() {
+					public void actionPerformed(ActionEvent e) {
+						try{
+							for(int i = 0; i < saleRecrodTable.getRowCount(); i++){
+								itemIds.add(Control.selectStockItemByName(saleRecrodTable.getValueAt(i, 0).toString()).getStockId());
+								prices.add(Double.parseDouble(saleRecrodTable.getValueAt(i, 2).toString()));
+								qtys.add(Integer.parseInt(saleRecrodTable.getValueAt(i, 1).toString()));
+							}
+							Control.addSaleRecord(saleRecrodTable.getValueAt(0, 3).toString(),itemIds, prices, qtys);
+							for(int i = saleRecrodTable.getRowCount(); i < 1; i--){
+								((DefaultTableModel)saleRecrodTable.getModel()).removeRow(i);
+							}
+							
+							//Check if any of the items are now low on stock.
+							for(int i = 0; i < itemIds.size(); i++){
+								if(Control.selectStockItem(itemIds.get(i)).checkQuanitityBelow(LOW_STOCK_VALUE)){
+									String warningStr = Control.selectStockItem(itemIds.get(i)).getName() +" is currently low on stock";
+									JOptionPane.showMessageDialog(null, warningStr);
+								}
+							}
+							
+						}catch(Exception e1){
+							JOptionPane.showMessageDialog(null, "Error in data", "InfoBox:", JOptionPane.INFORMATION_MESSAGE);
+						}
+					}
+				});
+				
+				saleRecrodTable.getModel().addTableModelListener(new TableModelListener() {
+					@Override
+					public void tableChanged(javax.swing.event.TableModelEvent e) {
+						int itemId = 0;
+						double totalCost = 0;
+						for(int i = 0; i < saleRecrodTable.getRowCount(); i++){
+							if(!saleRecrodTable.getValueAt(i, 0).toString().equals("")){
+								String name = saleRecrodTable.getValueAt(i, 0).toString();
+								itemId = Control.selectStockItemByName(name).getStockId();
+								//itemId = Control.selectStockItemByName(saleRecrodTable.getValueAt(i, 0).toString()).getStockId();
+								
+								double price = Control.selectStockItem(itemId).getListPrice();
+								String s = Double.toString(price);
+								if(saleRecrodTable.getValueAt(i, 2).toString().equals("")){
+									saleRecrodTable.setValueAt(Control.selectStockItem(itemId).getListPrice(), i, 2);
+									saleRecrodTable.setValueAt(timeStamp,i,3);
+								}
+							}
+							if(!saleRecrodTable.getValueAt(i,1).toString().equals("")){
+								itemId = Control.selectStockItemByName(saleRecrodTable.getValueAt(i, 0).toString()).getStockId();
+								double tempValue = Control.selectStockItem(itemId).getListPrice();
+								totalCost += tempValue * Double.parseDouble(saleRecrodTable.getValueAt(i,1).toString());
+							}
+						}
+						TotalPriceTextField.setText(Double.toString(totalCost));
+					}
+				});
+				
+				bottomPanel.add(AddSaleRecordFinishButton);
+				
+		//******************************************************************
+		
+		//**********************EDIT STOCK ITEM*****************************
+		JTextPane EditStockNameHeading = new JTextPane();
+		EditStockNameHeading.setText(ADD_STOCK_ITEM);
+		EditStockNameHeading.setEnabled(false);
+		EditStockNameHeading.setEditable(false);
+		EditStockNameHeading.setBounds(10, 72, 100, 20);
+		EditStockItemPanel.add(EditStockNameHeading);
+		
+		JTextPane EditStockDescriptionHeading = new JTextPane();
+		EditStockDescriptionHeading.setEnabled(false);
+		EditStockDescriptionHeading.setEditable(false);
+		EditStockDescriptionHeading.setText(DESCRIPTION);
+		EditStockDescriptionHeading.setBounds(10, 103, 100, 20);
+		EditStockItemPanel.add(EditStockDescriptionHeading);
+		
+		JTextPane EditStockSalePriceHeading = new JTextPane();
+		EditStockSalePriceHeading.setEnabled(false);
+		EditStockSalePriceHeading.setEditable(false);
+		EditStockSalePriceHeading.setText(SALE_PRICE);
+		EditStockSalePriceHeading.setBounds(10, 134, 100, 20);
+		EditStockItemPanel.add(EditStockSalePriceHeading);
+		
+		JTextPane EditStockManufacturerHeading = new JTextPane();
+		EditStockManufacturerHeading.setEnabled(false);
+		EditStockManufacturerHeading.setEditable(false);
+		EditStockManufacturerHeading.setText(MANUFACTURER);
+		EditStockManufacturerHeading.setBounds(10, 165, 100, 20);
+		EditStockItemPanel.add(EditStockManufacturerHeading);
+		
+		JTextPane EditStockQuantityHeading = new JTextPane();
+		EditStockQuantityHeading.setEnabled(false);
+		EditStockQuantityHeading.setEditable(false);
+		EditStockQuantityHeading.setText(QUANTITY);
+		EditStockQuantityHeading.setBounds(10, 196, 100, 20);
+		EditStockItemPanel.add(EditStockQuantityHeading);
+		
+		JEditorPane EditStockDescriptionEditorPane = new JEditorPane();
+		EditStockDescriptionEditorPane.setBounds(120, 103, 304, 20);
+		EditStockItemPanel.add(EditStockDescriptionEditorPane);
+		
+		JEditorPane EditStockManufacturerEditerPane = new JEditorPane();
+		EditStockManufacturerEditerPane.setBounds(120, 165, 304, 20);
+		EditStockItemPanel.add(EditStockManufacturerEditerPane);
+		
+		JEditorPane EditStockQuantityEditorPane = new JEditorPane();
+		EditStockQuantityEditorPane.setBounds(120, 196, 304, 20);
+		EditStockItemPanel.add(EditStockQuantityEditorPane);
+		
+		JEditorPane EditStockSaleEditorPane = new JEditorPane();
+		EditStockSaleEditorPane.setBounds(120, 134, 304, 20);
+		EditStockItemPanel.add(EditStockSaleEditorPane);
+		
+		JFormattedTextField EditStockItemHeading = new JFormattedTextField();
+		EditStockItemHeading.setText(STOCK_MANAGEMENT);
+		EditStockItemHeading.setHorizontalAlignment(SwingConstants.CENTER);
+		EditStockItemHeading.setEnabled(false);
+		EditStockItemHeading.setEditable(false);
+		EditStockItemHeading.setBounds(10, 11, 414, 23);
+		EditStockItemPanel.add(EditStockItemHeading);
+		
+		JButton EditStockHomePageButton = new JButton(HOME_PAGE);
+		EditStockHomePageButton.setBounds(10, 227, 100, 23);
+		EditStockItemPanel.add(EditStockHomePageButton);
+		EditStockHomePageButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				HomePagePanel.setVisible(true);
+				EditStockItemPanel.setVisible(false);
+			}
+		});
+		
+		for(int i = 0; i < StockItems.size(); i++){
+			StockItemNames.add(i, StockItems.get(i).getName());
+		}
+		
+		JComboBox<?> EditStockItemSelectionList = new JComboBox<Object>(StockItemNames.toArray());
+		EditStockItemSelectionList.addActionListener (new ActionListener () {
+		    public void actionPerformed(ActionEvent e) {
+		    	EditStockQuantityEditorPane.setText(Integer.toString(Control.selectStockItemByName(EditStockItemSelectionList.getSelectedItem().toString()).getQuantity()));
+		    	EditStockSaleEditorPane.setText(Double.toString(Control.selectStockItemByName(EditStockItemSelectionList.getSelectedItem().toString()).getListPrice()));
+		    	EditStockManufacturerEditerPane.setText(Control.selectStockItemByName(EditStockItemSelectionList.getSelectedItem().toString()).getManufacturer());
+		    	EditStockDescriptionEditorPane.setText(Control.selectStockItemByName(EditStockItemSelectionList.getSelectedItem().toString()).getDescription());
+		    	System.out.println("val changed");
+		    }
+		});
+	
+		EditStockItemSelectionList.setBounds(120, 72, 304, 20);
+		
+		try{
+			EditStockItemPanel.add(EditStockItemSelectionList);
+		} catch(IndexOutOfBoundsException e)
+		{
+			System.err.println("IndexOutOfBoundsException: " + e.getMessage());
+		}
+		
+		JButton EditButton = new JButton(EDIT);
+		EditButton.setBounds(324, 227, 100, 23);
+		EditStockItemPanel.add(EditButton);
+		
+		EditButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				try {
+					StockItem si = Control.selectStockItemByName(EditStockItemSelectionList.getSelectedItem().toString());
+					si.setDescription(EditStockDescriptionEditorPane.getText());
+					si.setManufacturer(EditStockManufacturerEditerPane.getText());
+					si.setQuantity(Integer.parseInt(EditStockQuantityEditorPane.getText()));
+					si.setListPrice(Double.parseDouble(EditStockSaleEditorPane.getText()));
+					Control.updateStockItem(si.getStockId(), si);
+					System.out.println(si.getStockId());
+					
+					//TODO EDIT NAME
+					//si.setName();
+					
+				} catch (IndexOutOfBoundsException e) {
+				    System.err.println("IndexOutOfBoundsException: " + e.getMessage());
+				} catch( NumberFormatException e){
+					JOptionPane.showMessageDialog(frame, PASSED_DATA_ERROR, DATA_INPUT_ERROR, JOptionPane.ERROR_MESSAGE);
+					
+				}
+			}
+		});		
+				
+		//******************************************************************
+		
+		//**************************HOME PAGE*******************************
+		JButton StockManagementButton = new JButton(STOCK_MANAGEMENT);
+		StockManagementButton.setBounds(10, 46, 180, 49);
+		HomePagePanel.add(StockManagementButton);
+		
+		StockManagementButton.addActionListener(new ActionListener(){
+			public void actionPerformed(ActionEvent arg0){
+				StockManagerPanel.setVisible(true);
+				HomePagePanel.setVisible(false);
+			}
+		});
+		
+		JButton SalesManagerButton = new JButton(SALES_MANAGEMENT);
+		SalesManagerButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				HomePagePanel.setVisible(false);
+				SalesManagerPanel.setVisible(true);
+			}
+		});
+		
+		SalesManagerButton.setBounds(10, 106, 180, 49);
+		HomePagePanel.add(SalesManagerButton);
+		
+		JButton ReportGeneratorButton = new JButton(REPORT_GENERATOR);
+		ReportGeneratorButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				HomePagePanel.setVisible(false);
+				ReportPanel.setVisible(true);
+			}
+		});
+		ReportGeneratorButton.setBounds(10, 166, 180, 49);
+		HomePagePanel.add(ReportGeneratorButton);
+		
+		//******************************************************************
+		
+		//*****************STOCK MANAGER************************************
+		JButton AddStockItemButton = new JButton(ADD_STOCK_ITEM);
+		AddStockItemButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				AddStockItemPanel.setVisible(true);
+				StockManagerPanel.setVisible(false);
+			}
+		});
+		AddStockItemButton.setBounds(145, 81, 160, 49);
+		StockManagerPanel.add(AddStockItemButton);
+		
+		JButton DisplayStockItemButton = new JButton(DISPLAY_STOCK_ITEMS);
+		DisplayStockItemButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				DisplayStockItemsPanel.setVisible(true);
+				StockManagerPanel.setVisible(false);
+			}
+		});
+		DisplayStockItemButton.setBounds(145, 201, 161, 49);
+		StockManagerPanel.add(DisplayStockItemButton);
+		
+		JButton EditStockItemButton = new JButton(EDIT_STOCK_ITEM);
+		EditStockItemButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				EditStockItemPanel.setVisible(true);
+				StockManagerPanel.setVisible(false);
+			}
+		});
+		
+		EditStockItemButton.setBounds(145, 141, 161, 49);
+		StockManagerPanel.add(EditStockItemButton);
+
+		JButton StockReturnToHome = new JButton(HOME_PAGE);
+		StockReturnToHome.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				HomePagePanel.setVisible(true);
+				StockManagerPanel.setVisible(false);
+			}
+		});
+		StockReturnToHome.setBounds(10, 227, 100, 23);
+		StockManagerPanel.add(StockReturnToHome);
+		//******************************************************************
+		
+		//**************************SALE MANAGER****************************
+		JFormattedTextField StockManagerHeading = new JFormattedTextField();
+		StockManagerHeading.setEnabled(false);
+		StockManagerHeading.setEditable(false);
+		StockManagerHeading.setHorizontalAlignment(SwingConstants.CENTER);
+		StockManagerHeading.setText(STOCK_MANAGEMENT);
+		StockManagerHeading.setBounds(10, 11, 414, 23);
+		StockManagerPanel.add(StockManagerHeading);
+		
+		JButton SalesReturnToHome = new JButton(HOME_PAGE);
+		SalesReturnToHome.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				HomePagePanel.setVisible(true);
+				SalesManagerPanel.setVisible(false);
+			}
+		});
+		SalesReturnToHome.setBounds(10, 227, 100, 23);
+		SalesManagerPanel.add(SalesReturnToHome);
+		
+		JButton AddSalesRecordButton = new JButton(ADD_SALES_RECORD);
+		AddSalesRecordButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				SalesManagerPanel.setVisible(false);
+				AddSaleRecordPanel.setVisible(true);
+			}
+		});
+		AddSalesRecordButton.setBounds(140, 81, 160, 49);
+		SalesManagerPanel.add(AddSalesRecordButton);
+		
+		JButton DisplaySalesRecordButton = new JButton(DISPLAY_SALES_RECORD);
+		DisplaySalesRecordButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				SalesManagerPanel.setVisible(false);
+				DisplayStockItemsPanel.setVisible(true);
+			}
+		});
+		DisplaySalesRecordButton.setBounds(140, 201, 160, 49);
+		SalesManagerPanel.add(DisplaySalesRecordButton);
+		
+		JFormattedTextField SalesManagerHeading = new JFormattedTextField(SALES_MANAGEMENT);
+		SalesManagerHeading.setHorizontalAlignment(SwingConstants.CENTER);
+		SalesManagerHeading.setEditable(false);
+		SalesManagerHeading.setEnabled(false);
+		SalesManagerHeading.setBounds(10, 11, 414, 23);
+		SalesManagerPanel.add(SalesManagerHeading);
+	
+		
+		//******************************************************************
+		
+		//***************Display Stock Items******************
+		DisplayStockItemsPanel.setLayout(new BorderLayout(0, 0));
+		  
+		JPanel StockItemTopPanel = new JPanel();
+		topPanel.setLocation(0, 20);
+		DisplayStockItemsPanel.add( StockItemTopPanel, BorderLayout.CENTER );
+		
+		JFormattedTextField DisplayStockItemsHeading = new JFormattedTextField();
+		DisplayStockItemsHeading.setEnabled(false);
+		DisplayStockItemsHeading.setEditable(false);
+		DisplayStockItemsHeading.setHorizontalAlignment(SwingConstants.CENTER);
+		DisplayStockItemsHeading.setText(DISPLAY_STOCK_ITEMS);
+		DisplayStockItemsHeading.setBounds(0, 0, 437, 20);
+		DisplayStockItemsPanel.add(DisplayStockItemsHeading, BorderLayout.NORTH);
+		
+		JPanel StockItemBottomPanel = new JPanel();
+		DisplayStockItemsPanel.add(StockItemBottomPanel, BorderLayout.SOUTH);
+		
+		String columnNames[] = { "ID", "Item Name", "Description", "List Price", "Quantity" };
+
+		String[][] Values = new String[StockItems.size()][6];
+		
+		//list is used to store row indexes that need to be highlighted due to low stock count.
+		List<Integer> rowIndexesForHighlight = new ArrayList<Integer>();
+
+		for(int i = 0; i < StockItems.size(); i++){
+			Values[i][0] = Integer.toString(StockItems.get(i).getStockId());
+			Values[i][1] = StockItems.get(i).getName();
+			Values[i][2] = StockItems.get(i).getDescription();
+			Values[i][3] = Double.toString(StockItems.get(i).getListPrice());
+			Values[i][4] = Integer.toString(StockItems.get(i).getQuantity());
+			
+			if(StockItems.get(i).getQuantity() < LOW_STOCK_VALUE){
+				rowIndexesForHighlight.add(i);
+			}
+		}
+		
+		topPanel.setLayout(null);
+		topPanel.setLayout(new BoxLayout(topPanel, BoxLayout.X_AXIS));
+		
+		// Create a new table instance
+		DefaultTableModel ItemDisplaymodel = new DefaultTableModel(Values, columnNames);
+		JTable ItemDisplayTable = new JTable( ItemDisplaymodel )
+		{
+			//Highlight rows with low stock count
+			public Component prepareRenderer(TableCellRenderer renderer, int row, int column)
+			{
+				Component c = super.prepareRenderer(renderer, row, column);
+				c.setBackground(Color.WHITE);
+				for(int i = 0; i < rowIndexesForHighlight.size(); i++){
+					if(row == rowIndexesForHighlight.get(i))
+					{
+						c.setBackground(Color.RED);
+					}
+					//c.setBackground(row == rowIndexesForHighlight.get(i) ? getBackground() : Color.RED);
+				}
+				return c;
+			}
+					
+		};
+		
+		ItemDisplayTable.setPreferredScrollableViewportSize(new Dimension(500, 70)); //500, 70
+		ItemDisplayTable.setFillsViewportHeight(true);
+        
+		// Add the table to a scrolling pane
+		JScrollPane ItemDisplayScrollPane = new JScrollPane( ItemDisplayTable );
+		ItemDisplayScrollPane.setBounds(0, 20, 450, 300);
+		DisplayStockItemsPanel.add( ItemDisplayScrollPane );
+		
+		JButton ItemDisplayHomePageButton = new JButton(HOME_PAGE);
+		ItemDisplayHomePageButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				HomePagePanel.setVisible(true);
+				DisplayStockItemsPanel.setVisible(false);
+			}
+		});
+		StockItemBottomPanel.add(ItemDisplayHomePageButton);
+		
+	//***************************************************
+	
+	//***************Display Sale Records******************
+	
+		//TODO: Needs Debugging
+		
+	DisplaySaleRecordPanel.setLayout(new BorderLayout(0, 0));
+	  
+	JPanel SaleRecordsTopPanel = new JPanel();
+	SaleRecordsTopPanel.setLocation(0, 20);
+	DisplaySaleRecordPanel.add( SaleRecordsTopPanel, BorderLayout.CENTER );
+	
+	JFormattedTextField DisplaySaleRecordHeading = new JFormattedTextField();
+	DisplaySaleRecordHeading.setEnabled(false);
+	DisplaySaleRecordHeading.setEditable(false);
+	DisplaySaleRecordHeading.setHorizontalAlignment(SwingConstants.CENTER);
+	DisplaySaleRecordHeading.setText(DISPLAY_STOCK_ITEMS);
+	DisplaySaleRecordHeading.setBounds(0, 0, 437, 20);
+	DisplaySaleRecordPanel.add(DisplaySaleRecordHeading, BorderLayout.NORTH);
+	
+	JPanel SaleRecordBottomPanel = new JPanel();
+	DisplaySaleRecordPanel.add(SaleRecordBottomPanel, BorderLayout.SOUTH);
+	
+	List<SalesRecord> SaleRecords= Control.displayAllSaleRecords();
+	List<SalesOrderlineRecord> OrderRecords = new ArrayList<SalesOrderlineRecord>() ;
+	
+	//Initialize sale records array for table population
+	for(int i = 0; i < SaleRecords.size(); i++){
+		//OrderRecords.add(Control.displaySaleRecord(SaleRecords.get(i).getSaleId()));
+	}
+	
+	String SaleRecordcolumnNames[] = { "OrderLine ID", "SaleID", "Item Name", "Quantity" };
+	String[][] SaleRecordValues = new String[StockItems.size()][6];
+	
+	for(int i = 0; i < SaleRecords.size(); i++){
+		//SaleRecordValues[i][0] = Integer.toString(StockItems.get(i).getStockId());
+		//SaleRecordValues[i][1] = Integer.toString(SaleRecords.get(i).getSaleId());
+		//SaleRecordValues[i][2] = Control.selectStockItem(Control.displaySaleRecord(i).itemId()).getName();
+		//SaleRecordValues[i][3] = Integer.toString(Control.displaySaleRecord(i).getQty());
+	}
+	
+	SaleRecordsTopPanel.setLayout(null);
+	SaleRecordsTopPanel.setLayout(new BoxLayout(SaleRecordsTopPanel, BoxLayout.X_AXIS));
+	
+	// Create a new table instance
+
+	//DefaultTableModel model = new DefaultTableModel(SaleRecorddataValues, SaleRecordcolumnNames);
+	DefaultTableModel SaleRecordDisplaymodel = new DefaultTableModel(SaleRecordValues, SaleRecordcolumnNames);
+	JTable SaleRecordTable = new JTable( SaleRecordDisplaymodel );
+
+	SaleRecordTable.setPreferredScrollableViewportSize(new Dimension(500, 70)); //500, 70
+	SaleRecordTable.setFillsViewportHeight(true);
+    
+	// Add the table to a scrolling pane
+	JScrollPane SaleRecordScrollPane = new JScrollPane( SaleRecordTable );
+	SaleRecordScrollPane.setBounds(0, 20, 450, 300);
+	DisplaySaleRecordPanel.add( SaleRecordScrollPane );
+
+	//***************************REPORT GENERATOR******************
+	
+	JPanel ReportTopPanel = new JPanel();
+	ReportTopPanel.setLocation(0, 20);
+	ReportTopPanel.setLayout(null);
+	ReportTopPanel.setLayout(new BoxLayout(ReportTopPanel, BoxLayout.X_AXIS));
+	ReportPanel.add( ReportTopPanel, BorderLayout.CENTER );
+	
+	JFormattedTextField ReportHeading = new JFormattedTextField();
+	ReportHeading.setEnabled(false);
+	ReportHeading.setEditable(false);
+	ReportHeading.setHorizontalAlignment(SwingConstants.CENTER);
+	ReportHeading.setText("Report Heading");
+	ReportHeading.setBounds(0, 0, 437, 20);
+	ReportPanel.add(ReportHeading, BorderLayout.NORTH);
+	
+	JPanel reportBottomPanel = new JPanel();
+	ReportPanel.add(reportBottomPanel, BorderLayout.SOUTH);
+	
+	String ReportColumnNames[] = { "Item Name" };
+
+	// Create some data
+	String ReportDataValues[][] =
+	{
+		{ "" },
+	};
+	
+	ReportTopPanel.setLayout(new BoxLayout(ReportTopPanel, BoxLayout.X_AXIS));
+	
+	// Create a new table instance
+	DefaultTableModel reportModel = new DefaultTableModel(ReportDataValues, ReportColumnNames);
+	JTable reportTable = new JTable( reportModel );
+	
+	reportTable.setPreferredScrollableViewportSize(new Dimension(500, 70)); //500, 70
+	reportTable.setFillsViewportHeight(true);
+    
+	for(int i = 0; i < StockItems.size(); i++){
+		StockItemNames.add(i, StockItems.get(i).getName());
+	}
+	
+	TableColumn ItemNameReportColumn = saleRecrodTable.getColumnModel().getColumn(0);
+    JComboBox<String> ItemNameReportComboBox = new JComboBox<String>();
+
+    for(int i = 0; i < StockItems.size(); i++)
+    {
+    	ItemNameReportComboBox.addItem(StockItemNames.get(i));
+    }
+
+    ItemNameReportColumn.setCellEditor(new DefaultCellEditor(ItemNameReportComboBox));
+    
+	// Add the table to a scrolling pane
+	JScrollPane ReportScrollPane = new JScrollPane( reportTable );
+	ReportScrollPane.setBounds(0, 20, 450, 300);
+	ReportPanel.add( ReportScrollPane );
+	ReportPanel.add(ReportTopPanel);
+	
+	reportTable.setPreferredScrollableViewportSize(new Dimension(500, 70)); //500, 70
+	reportTable.setFillsViewportHeight(true);
+	
+	JButton ReportHomePageButton = new JButton(HOME_PAGE);
+	ReportHomePageButton.addActionListener(new ActionListener() {
+		public void actionPerformed(ActionEvent e) {
+			ReportPanel.setVisible(false);
+			HomePagePanel.setVisible(true);
+		}
+	});
+	
+	JButton ReportAddNewItemButton = new JButton("Add Sale Item");
+	//ReportAddNewItemButton.setBounds(144, 231, 99, 23);
+	ReportAddNewItemButton.addActionListener(new ActionListener() {
+		public void actionPerformed(ActionEvent e) {
+			reportModel.addRow(new Object[]{""});
+		}
+	});
+	
+	int dataRange = 100;
+	int forwardPrediction = 100;
+	
+	JButton GenerateReportButton = new JButton(GENERATE_REPORT);
+	GenerateReportButton.addActionListener(new ActionListener() {
+		public void actionPerformed(ActionEvent e) {
+			for(int i = 0; i < reportTable.getRowCount(); i++){
+				Prediction.generateSingleItemReport(Control.selectStockItemByName(reportTable.getValueAt(i, 0).toString()).getStockId(), dataRange, forwardPrediction);
+			}
+		}
+	});
+
+	reportBottomPanel.add(ReportHomePageButton);
+	reportBottomPanel.add(GenerateReportButton);
+	reportBottomPanel.add(ReportAddNewItemButton);
+}
+	
+	//******************************************************************
+
+	private void TableModelEvent(DefaultTableModel saleRecrodModel) {
+		// TODO Auto-generated method stub
+		System.out.println("item added");
+	}
+
+
+	void AddStockItem(String name, String description, int SalePrice, int WholeSalePrice, int Quantity){
+		int i = 0;
+		i++;
+	}
+	
+	List<String> getStockItemsList(){
+		List<String> ListOfNames = new ArrayList<String>();
+		ListOfNames.add("asdf");
+		ListOfNames.add("fdas");
+		ListOfNames.add("aseeeedf");
+		return ListOfNames;
+	}
+	
+	void AddSaleRecord(String ItemName, String NumberSold){
+		int i = 0;
+		i++;
+	}
+	
+	List<String> getSaleRecordList(){
+		List<String> ListOfNames = new ArrayList<String>();
+		ListOfNames.add("asdf");
+		ListOfNames.add("fdas");
+		ListOfNames.add("aseeeedf");
+		return ListOfNames;
+	}
+	
+	
+}
+

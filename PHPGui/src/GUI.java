@@ -69,13 +69,16 @@ public class GUI {
 	private static final String GENERATE_REPORT = "Generate Report";
 
 	private static final int LOW_STOCK_VALUE = 5;
+	private static final int SALES_REPORT_LENGTH = 30;
 	
 	private JFrame frame;
 	private JTextField TotalPriceTextField;
 	
 	private Controller Control = new Controller();
-	
+	private ReportCsvFileWriter FileWritter = new ReportCsvFileWriter();
 	private ItemQtyPrediction Prediction = new ItemQtyPrediction(Control.getConnectionInfo());
+	
+	private static final String FUTURE_SALES_REPORT_HEADER = "itemId, itemName, qtyCount, dataRange, salesRate, currentQty, futureSales";
 	
 	private List<StockItem> StockItems = new ArrayList<StockItem>();
 	private List<String> StockItemNames = new ArrayList<String>();
@@ -680,7 +683,6 @@ public class GUI {
 		DisplayStockItemsPanel.add(StockItemBottomPanel, BorderLayout.SOUTH);
 		
 		String columnNames[] = { "ID", "Item Name", "Description", "List Price", "Quantity" };
-
 		String[][] Values = new String[StockItems.size()][6];
 		
 		//list is used to store row indexes that need to be highlighted due to low stock count.
@@ -743,6 +745,8 @@ public class GUI {
 	
 	//***************Display Sale Records******************
 	
+		//TODO: Needs Debugging
+		
 	DisplaySaleRecordPanel.setLayout(new BorderLayout(0, 0));
 	  
 	JPanel SaleRecordsTopPanel = new JPanel();
@@ -765,15 +769,15 @@ public class GUI {
 	
 	//Initialize sale records array for table population
 	for(int i = 0; i < SaleRecords.size(); i++){
-		OrderRecords.add(Control.displaySaleRecord(SaleRecords.get(i).getSaleId()));
+		//OrderRecords.add(Control.displaySaleRecord(SaleRecords.get(i).getSaleId()));
 	}
 	
 	String SaleRecordcolumnNames[] = { "OrderLine ID", "SaleID", "Item Name", "Quantity" };
 	String[][] SaleRecordValues = new String[StockItems.size()][6];
 	
 	for(int i = 0; i < SaleRecords.size(); i++){
-		SaleRecordValues[i][0] = Integer.toString(StockItems.get(i).getStockId());
-		SaleRecordValues[i][1] = Integer.toString(SaleRecords.get(i).getSaleId());
+		//SaleRecordValues[i][0] = Integer.toString(StockItems.get(i).getStockId());
+		//SaleRecordValues[i][1] = Integer.toString(SaleRecords.get(i).getSaleId());
 		//SaleRecordValues[i][2] = Control.selectStockItem(Control.displaySaleRecord(i).itemId()).getName();
 		//SaleRecordValues[i][3] = Integer.toString(Control.displaySaleRecord(i).getQty());
 	}
@@ -796,6 +800,7 @@ public class GUI {
 	DisplaySaleRecordPanel.add( SaleRecordScrollPane );
 
 	//***************************REPORT GENERATOR******************
+	ReportPanel.setLayout(new BorderLayout(0, 0));
 	
 	JPanel ReportTopPanel = new JPanel();
 	ReportTopPanel.setLocation(0, 20);
@@ -830,13 +835,13 @@ public class GUI {
 	
 	reportTable.setPreferredScrollableViewportSize(new Dimension(500, 70)); //500, 70
 	reportTable.setFillsViewportHeight(true);
-    
+
+	TableColumn ItemNameReportColumn = reportTable.getColumnModel().getColumn(0);
+    JComboBox<String> ItemNameReportComboBox = new JComboBox<String>();
+	
 	for(int i = 0; i < StockItems.size(); i++){
 		StockItemNames.add(i, StockItems.get(i).getName());
 	}
-	
-	TableColumn ItemNameReportColumn = saleRecrodTable.getColumnModel().getColumn(0);
-    JComboBox<String> ItemNameReportComboBox = new JComboBox<String>();
 
     for(int i = 0; i < StockItems.size(); i++)
     {
@@ -862,8 +867,16 @@ public class GUI {
 		}
 	});
 	
-	JButton ReportAddNewItemButton = new JButton("Add Sale Item");
-	ReportAddNewItemButton.setBounds(144, 231, 99, 23);
+	JButton ReportSalesReportButton = new JButton("Sales Report");
+	//ReportAddNewItemButton.setBounds(144, 231, 99, 23);
+	ReportSalesReportButton.addActionListener(new ActionListener() {
+		public void actionPerformed(ActionEvent e) {
+			Control.generateSaleValueReport(SALES_REPORT_LENGTH);
+		}
+	});
+	
+	JButton ReportAddNewItemButton = new JButton("Add Item");
+	//ReportAddNewItemButton.setBounds(144, 231, 99, 23);
 	ReportAddNewItemButton.addActionListener(new ActionListener() {
 		public void actionPerformed(ActionEvent e) {
 			reportModel.addRow(new Object[]{""});
@@ -873,18 +886,22 @@ public class GUI {
 	int dataRange = 100;
 	int forwardPrediction = 100;
 	
+	ArrayList<String> PredictionResults = new ArrayList<String>();
+	
 	JButton GenerateReportButton = new JButton(GENERATE_REPORT);
 	GenerateReportButton.addActionListener(new ActionListener() {
 		public void actionPerformed(ActionEvent e) {
 			for(int i = 0; i < reportTable.getRowCount(); i++){
-				Prediction.generateSingleItemReport(Control.selectStockItemByName(reportTable.getValueAt(i, 0).toString()).getStockId(), dataRange, forwardPrediction);
+				PredictionResults.add(Prediction.generateSingleItemReport(Control.selectStockItemByName(reportTable.getValueAt(i, 0).toString()).getStockId(), dataRange, forwardPrediction));
 			}
+			FileWritter.writeCsvReportToFile("Report.csv", FUTURE_SALES_REPORT_HEADER, PredictionResults);
 		}
 	});
 
 	reportBottomPanel.add(ReportHomePageButton);
 	reportBottomPanel.add(GenerateReportButton);
 	reportBottomPanel.add(ReportAddNewItemButton);
+	reportBottomPanel.add(ReportSalesReportButton);
 }
 	
 	//******************************************************************

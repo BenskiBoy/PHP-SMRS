@@ -15,7 +15,7 @@ import java.util.Date;
 public class ItemQtyPrediction {
 	
 	//Properties
-	private static String outputFile = "";
+	private static String outputFile = "thingy.csv";
 	private static String itemQuantityReportHeader = "ItemID, ItemName, Qty Sold, Sale Period, Fortnightly Rate, Remaining Qty, Required Qty";
 	private static ConnectionInfo conInfo = null;
 	private static double rateMetric = 14; //number of days over which the rate applies
@@ -73,7 +73,7 @@ public class ItemQtyPrediction {
 			
 			//Determine total quantity count
 			while(rs.next()){
-				//System.out.println("Index: " + index + " Qty: " + rs.getInt(1) + " date: " + df.format(rs.getDate(2)));
+				System.out.println("Index: " + index + " Qty: " + rs.getInt(1) + " date: " + df.format(rs.getDate(2)));
 				index++;
 				qtyCount += rs.getInt(1);
 			}

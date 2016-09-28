@@ -1,9 +1,11 @@
+import java.awt.List;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.Statement;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 
@@ -22,9 +24,9 @@ public class SalesValue {
 
 	//Generates total sales value report for a given amount of days as a string in csv format
 	//dataRange - positive integer pertaining to amount of days in the past to generate report for
-	public String[] generateSalesValueReport (int dataRange, ConnectionInfo CI, Model mod)
+	public ArrayList<String> generateSalesValueReport (int dataRange, ConnectionInfo CI, Model mod)
 	{
-		String[] result = null;
+		ArrayList<String> result = new ArrayList<String>();
 		String startDate = "";
 		String endDate = "";
 		int itemCount = 0;
@@ -55,7 +57,7 @@ public class SalesValue {
 		}
 
 		//generate csv string
-		result[0] = startDate + ", " + endDate + ", " + itemCount + ", $" + priceTotal;
+		result.add(startDate + ", " + endDate + ", " + itemCount + ", $" + priceTotal);
 		
 		return result;
 	}
