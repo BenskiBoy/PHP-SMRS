@@ -12,13 +12,21 @@ public class Controller {
 	private ItemQtyPrediction repIdvItemSalePrediction;
 	
 	private ConnectionInfo CI;
-	private static String IP = "192.168.1.103";
-	private static String HOST = "jdbc:mysql://" + IP + ":3306/phpsales_and_stock?autoReconnect=true&useSSL=false";
+	private static String IP = "10.1.51.129";
+	//private static String IP = "192.168.1.100";
+	//private static String HOST = "jdbc:mysql://" + IP + ":3306/phpsales_and_stock?autoReconnect=true&useSSL=false";
+	private static String HOST = "jdbc:mysql://" + IP + ":3306/PhPSales_and_Stock?autoReconnect=true&useSSL=false";
 	private static String USERNAME = "TestUser";
 	private static String PASSWORD = "PhpTestPass";
+	//private static String USERNAME = "root";
+	//private static String PASSWORD = "password";
 	public Controller ()
 	{
 		CI = new ConnectionInfo (HOST, USERNAME, PASSWORD);
+	}
+	
+	public ConnectionInfo getConnectionInfo(){
+		return CI;
 	}
 	
 	//

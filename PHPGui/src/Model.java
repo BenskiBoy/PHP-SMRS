@@ -90,13 +90,13 @@ public class Model {
 		String strId = Integer.toString(id);
 
 		String result = "SELECT * FROM StockItems" 
-					+ "WHERE idStockItems = '"+ strId +"'";
+					+ " WHERE idStockItems = '"+ strId +"'";
 		return result;
 	}
 
 	public String selectStockItemByName(String name){
 		String result = "SELECT * FROM StockItems" 
-					+ "WHERE Name = '"+ name +"'";
+					+ " WHERE Name = '"+ name +"'";
 		return result;
 	}
 
@@ -104,7 +104,7 @@ public class Model {
 		String strId = Integer.toString(id);
 
 		String result = "DELETE FROM StockItems" 
-					+ "WHERE idStockItems = '"+ strId +"'";
+					+ " WHERE idStockItems = '"+ strId +"'";
 		return result;
 	}
 }

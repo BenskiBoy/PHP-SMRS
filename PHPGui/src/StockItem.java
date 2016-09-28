@@ -1,5 +1,3 @@
-package stockitem;
-
 import javax.swing.JOptionPane;
 
 public class StockItem {
