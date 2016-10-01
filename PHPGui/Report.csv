@@ -1,4 +1,3 @@
 itemId, itemName, qtyCount, dataRange, salesRate, currentQty, futureSales
-5, Prochlorperazine Edisylate, 0, 100, 0.0, 16, 0.0
-42, Food Processing, 81, 100, 11.34, 28, 81.0
-26, Levothyroxine Sodium, 0, 100, 0.0, 69, 0.0
+2, , 0, 100, 0.0, 0, 0.0
+31, , 0, 100, 0.0, 0, 0.0

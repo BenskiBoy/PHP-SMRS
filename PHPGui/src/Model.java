@@ -23,12 +23,32 @@ public class Model {
 					+ "FROM salesrecord";
 		return result;
 	}
+	
+	public String displayOrderLines ()
+	{
+		String result = "SELECT * "
+					+ "FROM orderline";
+		return result;
+	}
 
 	public String displaySaleItem (int id)
 	{
 		String result = "SELECT * "
 					+ "FROM salesrecord "
-					+ "WHERE saleId = '"+ id +"'";
+					+ "WHERE idSalesRecord = '"+ id +"'";
+		return result;
+	}
+	
+	public String displaySaleRecords ()
+	{
+		String result = "SELECT * FROM salesrecord";
+		return result;
+	}
+	
+	public String displaySaleRecord (int saleId)
+	{
+		String result = "SELECT * FROM salesrecord WHERE idSalesRecord = '" 
+						+ saleId + "' ";
 		return result;
 	}
 

@@ -110,6 +110,7 @@ public class SalesRecordController {
 		return records;
 	}
 
+	//Function no longer used. Main functionality removed to avoid error
 	private SalesOrderlineRecord displaySaleRecord (int id)
 	{
 		SalesOrderlineRecord record = null;
@@ -142,7 +143,7 @@ public class SalesRecordController {
 				qty.add(rs.getInt("qtySold"));
 			}
 
-			record = new SalesOrderlineRecord(id, date, itemId, price, qty);
+			//record = new SalesOrderlineRecord(id, date, itemId, price, qty);
 		}
 		catch (Exception e)
 		{

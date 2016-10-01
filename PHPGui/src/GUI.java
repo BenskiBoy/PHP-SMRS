@@ -41,7 +41,7 @@ public class GUI {
 	private static final String STOCK_MANAGEMENT = "Stock Management";
 	private static final String SALES_MANAGEMENT = "Sales Management";
 	private static final String REPORT_GENERATOR = "Report Generator";
-	
+	private static final String RELOAD_VALUES = "Reload Values";
 	private static final String ADD_STOCK_ITEM = "Add Stock Item";
 	private static final String EDIT_STOCK_ITEM = "Edit Stock Item";
 	private static final String DISPLAY_STOCK_ITEMS = "Display Stock Items";
@@ -570,6 +570,16 @@ public class GUI {
 		ReportGeneratorButton.setBounds(10, 166, 180, 49);
 		HomePagePanel.add(ReportGeneratorButton);
 		
+		JButton HomePagePanelReloadButton = new JButton(RELOAD_VALUES);
+		HomePagePanelReloadButton.addActionListener(new ActionListener(){
+			public void actionPerformed(ActionEvent arg0) {
+				StockItems = Control.selectStockItem();
+			}
+		});
+		
+		HomePagePanelReloadButton.setBounds(247, 205, 180, 49);
+		HomePagePanel.add(HomePagePanelReloadButton);
+		
 		//******************************************************************
 		
 		//*****************STOCK MANAGER************************************
@@ -648,7 +658,7 @@ public class GUI {
 		DisplaySalesRecordButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				SalesManagerPanel.setVisible(false);
-				DisplayStockItemsPanel.setVisible(true);
+				DisplaySaleRecordPanel.setVisible(true);
 			}
 		});
 		DisplaySalesRecordButton.setBounds(140, 201, 160, 49);
@@ -764,22 +774,17 @@ public class GUI {
 	JPanel SaleRecordBottomPanel = new JPanel();
 	DisplaySaleRecordPanel.add(SaleRecordBottomPanel, BorderLayout.SOUTH);
 	
-	List<SalesRecord> SaleRecords= Control.displayAllSaleRecords();
-	List<SalesOrderlineRecord> OrderRecords = new ArrayList<SalesOrderlineRecord>() ;
+	String SaleRecordcolumnNames[] = { "idOrderLine", "saleId", "Item Name", "Quantity", "Date"};
 	
-	//Initialize sale records array for table population
-	for(int i = 0; i < SaleRecords.size(); i++){
-		//OrderRecords.add(Control.displaySaleRecord(SaleRecords.get(i).getSaleId()));
-	}
+	List<SalesOrderlineRecord> OrderRecords = Control.displaySaleRecords();
+	String[][] SaleRecordValues = new String[OrderRecords.size()][5];
 	
-	String SaleRecordcolumnNames[] = { "OrderLine ID", "SaleID", "Item Name", "Quantity" };
-	String[][] SaleRecordValues = new String[StockItems.size()][6];
-	
-	for(int i = 0; i < SaleRecords.size(); i++){
-		//SaleRecordValues[i][0] = Integer.toString(StockItems.get(i).getStockId());
-		//SaleRecordValues[i][1] = Integer.toString(SaleRecords.get(i).getSaleId());
-		//SaleRecordValues[i][2] = Control.selectStockItem(Control.displaySaleRecord(i).itemId()).getName();
-		//SaleRecordValues[i][3] = Integer.toString(Control.displaySaleRecord(i).getQty());
+	for(int i = 0; i < OrderRecords.size(); i++){
+		SaleRecordValues[i][0] = Integer.toString(OrderRecords.get(i).getIdOrderLine());
+		SaleRecordValues[i][1] = Integer.toString(OrderRecords.get(i).getSaleId());
+		SaleRecordValues[i][2] = Control.selectStockItem((OrderRecords.get(i).getItemId())).getName();
+		SaleRecordValues[i][3] = Integer.toString(OrderRecords.get(i).getQty());
+		SaleRecordValues[i][4] = Control.GetSaleRecord(OrderRecords.get(i).getSaleId()).getDate();
 	}
 	
 	SaleRecordsTopPanel.setLayout(null);
@@ -798,6 +803,16 @@ public class GUI {
 	JScrollPane SaleRecordScrollPane = new JScrollPane( SaleRecordTable );
 	SaleRecordScrollPane.setBounds(0, 20, 450, 300);
 	DisplaySaleRecordPanel.add( SaleRecordScrollPane );
+	
+	//Home Page Button
+	JButton DisplaySaleRecordHomePageButton = new JButton(HOME_PAGE);
+	DisplaySaleRecordHomePageButton.addActionListener(new ActionListener() {
+		public void actionPerformed(ActionEvent e) {
+			HomePagePanel.setVisible(true);
+			DisplaySaleRecordPanel.setVisible(false);
+		}
+	});
+	SaleRecordBottomPanel.add(DisplaySaleRecordHomePageButton);
 
 	//***************************REPORT GENERATOR******************
 	ReportPanel.setLayout(new BorderLayout(0, 0));
@@ -937,7 +952,5 @@ public class GUI {
 		ListOfNames.add("aseeeedf");
 		return ListOfNames;
 	}
-	
-	
 }
 

@@ -4,17 +4,17 @@ import java.util.List;
 //package SalesOrderlineRecord;
 public class SalesOrderlineRecord {
 	private int saleId;
-	private String date;
-	private List<Integer> itemId = new ArrayList<Integer>();
-	private List<Double> price = new ArrayList<Double>();
-	private List<Integer> qty = new ArrayList<Integer>();
-	public SalesOrderlineRecord (int saleId, String date, List<Integer> itemId, List<Double> price, List<Integer> qty)
+	private int idOrderLine;
+	private int itemId;
+	private double price;
+	private int qty;
+	public SalesOrderlineRecord (int idOrderLine, int saleId, int itemId, double price, int qty)
 	{
 		this.saleId = saleId;
-		this.date = date;
 		this.itemId = itemId;
 		this.price = price;
 		this.qty = qty;
+		this.idOrderLine = idOrderLine;
 	}
 
 	public int getSaleId ()
@@ -22,22 +22,22 @@ public class SalesOrderlineRecord {
 		return this.saleId;
 	}
 	
-	public String getDate ()
+	public int getIdOrderLine ()
 	{
-		return this.date;
+		return this.idOrderLine;
 	}
 
-	public List<Integer> getItemId ()
+	public int getItemId ()
 	{
 		return this.itemId;
 	}
 
-	public List<Double> getPrice ()
+	public double getPrice ()
 	{
 		return this.price;
 	}
 
-	public List<Integer> getQty ()
+	public int getQty ()
 	{
 		return this.qty;
 	}
